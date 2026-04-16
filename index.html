@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fleet Dispatch">
+<title>Starbase Fleet Dispatch</title>
+<style>
+:root{
+  --g:#1B4D3E;--gm:#2E7D5E;--gl:#5BB88A;--gp:#E4F5ED;
+  --am:#C97A1A;--ap:#FEF3C7;
+  --red:#DC2626;--rp:#FEE2E2;
+  --ink:#0D1810;--mid:#2C3A32;--muted:#6B7A70;
+  --border:#D4E0D8;--bg:#F5F8F6;--card:#FFFFFF;
+  --r:12px;--font:'DM Sans',system-ui,sans-serif;
+}
+@media(prefers-color-scheme:dark){
+  :root{--ink:#E8F0EC;--mid:#B0C4BA;--muted:#7A9488;--border:#2A3D35;--bg:#0D1810;--card:#162219;--gp:#0D2B22;--ap:#2A1F0A;--rp:#2A0D0D;}
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--bg);color:var(--ink);font-size:15px}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap');
+
+/* ── APP SHELL ── */
+.app{display:flex;flex-direction:column;height:100%;max-width:480px;margin:0 auto;position:relative}
+.topbar{background:var(--card);border-bottom:1px solid var(--border);padding:env(safe-area-inset-top,12px) 16px 12px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:10}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.back-btn{font-size:22px;cursor:pointer;color:var(--gm);line-height:1;padding:4px;display:none}
+.topbar-title{font-size:16px;font-weight:500}
+.topbar-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s}
+.sync-dot.syncing{background:var(--am);animation:pulse 1s infinite}
+.sync-dot.ok{background:var(--gl)}
+.sync-dot.err{background:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.screen{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:80px}
+.bottomnav{position:absolute;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom,0);z-index:10}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;cursor:pointer;border:none;background:none;color:var(--muted);font-family:var(--font);font-size:10px;transition:color .15s}
+.bnav-btn.active{color:var(--gm)}
+.bnav-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.bnav-badge{background:var(--red);color:#fff;border-radius:100px;font-size:9px;padding:1px 5px;position:absolute;top:6px;margin-left:12px}
+
+/* ── SETUP SCREEN ── */
+.setup-wrap{padding:24px 20px}
+.setup-logo{width:56px;height:56px;background:var(--g);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.setup-logo svg{width:30px;height:30px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.setup-title{font-size:22px;font-weight:500;margin-bottom:6px}
+.setup-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:28px}
+.setup-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:16px}
+.setup-card h3{font-size:14px;font-weight:500;margin-bottom:14px}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;font-family:'DM Mono',monospace}
+.fg input,.fg select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:11px 13px;color:var(--ink);font-family:var(--font);font-size:14px;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus{border-color:var(--gm)}
+.fg .hint{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
+.btn-primary{width:100%;background:var(--g);color:#fff;border:none;padding:14px;border-radius:var(--r);font-size:15px;font-weight:500;cursor:pointer;font-family:var(--font);transition:background .2s}
+.btn-primary:active{background:var(--gm)}
+.test-result{margin-top:10px;padding:10px 12px;border-radius:8px;font-size:13px;display:none}
+.test-result.ok{background:var(--gp);color:var(--g)}
+.test-result.err{background:var(--rp);color:var(--red)}
+
+/* ── HOME ── */
+.home-header{padding:20px 16px 12px}
+.home-title{font-size:20px;font-weight:500}
+.home-date{font-size:13px;color:var(--muted);margin-top:2px}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 16px 16px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 12px;text-align:center}
+.stat-num{font-size:24px;font-weight:500;line-height:1}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:3px}
+.sn-g{color:var(--gm)}
+.sn-r{color:var(--red)}
+.sn-a{color:var(--am)}
+.section-header{padding:0 16px 8px;font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-family:'DM Mono',monospace}
+.empty-state{padding:40px 24px;text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
+
+/* ── JOB CARDS ── */
+.job-cards{padding:0 16px}
+.job-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .15s;position:relative}
+.job-card:active{opacity:.85}
+.jc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.jc-route{font-size:15px;font-weight:500;line-height:1.3}
+.jc-code{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;background:var(--bg);padding:2px 7px;border-radius:100px;border:1px solid var(--border)}
+.jc-meta{font-size:12px;color:var(--muted);margin-bottom:10px}
+.jc-progress{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:8px}
+.jc-bar-wrap{height:4px;border-radius:2px;background:var(--border);overflow:hidden}
+.jc-bar{height:100%;border-radius:2px;transition:width .5s}
+.bar-y{background:var(--gl)}
+.bar-n{background:var(--red)}
+.bar-p{background:var(--border)}
+.jc-counts{display:flex;gap:12px;font-size:12px}
+.cnt-y{color:var(--gm);font-weight:500}
+.cnt-n{color:var(--red);font-weight:500}
+.cnt-p{color:var(--muted)}
+.assigned-tag{position:absolute;top:12px;right:50px;font-size:10px;background:var(--gp);color:var(--g);padding:2px 8px;border-radius:100px;font-weight:500}
+
+/* ── COMPOSE ── */
+.compose-wrap{padding:16px}
+.compose-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.compose-card-title{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.04em;font-family:'DM Mono',monospace}
+.chip-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px}
+.chip{padding:7px 14px;border-radius:100px;font-size:13px;cursor:pointer;border:1px solid var(--border);background:var(--bg);color:var(--muted);user-select:none;transition:all .15s}
+.chip.on{background:var(--gp);color:var(--g);border-color:var(--gl)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rate-wrap{position:relative}
+.rate-wrap span{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+.rate-wrap input{padding-left:22px}
+.preview-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-top:4px}
+.prev-lbl{font-size:10px;color:var(--muted);margin-bottom:8px;font-family:'DM Mono',monospace;letter-spacing:.06em}
+.wa-bubble{background:#dcf8c6;border-radius:0 12px 12px 12px;padding:10px 12px;font-size:12px;color:#111;line-height:1.7;display:inline-block;max-width:100%;word-break:break-word}
+.btn-wa{width:100%;background:#25D366;color:#fff;border:none;padding:14px;border-radius:var(--r);font-size:15px;font-weight:500;cursor:pointer;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-wa:active{background:#1ebe5b}
+.btn-wa svg{width:18px;height:18px;fill:white;flex-shrink:0}
+
+/* ── DETAIL ── */
+.detail-wrap{padding:16px}
+.detail-info{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.di-row{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--border);font-size:14px}
+.di-row:last-child{border:none}
+.di-lbl{color:var(--muted);font-size:13px}
+.di-val{font-weight:500;text-align:right;flex:1;margin-left:12px}
+.di-code{font-family:'DM Mono',monospace;font-size:13px}
+.resend-btn{width:100%;background:transparent;color:#25D366;border:1px solid #25D366;padding:12px;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px}
+
+.resp-filters{display:flex;gap:6px;padding:0 16px;margin-bottom:10px;overflow-x:auto;flex-shrink:0}
+.rf{padding:6px 14px;border-radius:100px;font-size:12px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--muted);white-space:nowrap;font-family:var(--font);transition:all .15s}
+.rf.on{font-weight:500}
+.rf.fy.on{background:var(--gp);color:var(--g);border-color:var(--gl)}
+.rf.fn.on{background:var(--rp);color:var(--red);border-color:#FCA5A5}
+.rf.fp.on{background:var(--ap);color:var(--am);border-color:#FDE68A}
+.resp-list{padding:0 16px}
+.resp-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border:1px solid var(--border);border-radius:10px;margin-bottom:8px}
+.r-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.r-info{flex:1;min-width:0}
+.r-name{font-size:14px;font-weight:500}
+.r-veh{font-size:12px;color:var(--muted)}
+.r-badge{padding:3px 10px;border-radius:100px;font-size:12px;font-weight:500;white-space:nowrap}
+.by{background:var(--gp);color:var(--g)}
+.bn{background:var(--rp);color:var(--red)}
+.bp{background:var(--ap);color:var(--am)}
+.r-time{font-size:11px;color:var(--muted);white-space:nowrap}
+.assign-btn{padding:5px 12px;border-radius:8px;border:1px solid var(--gl);background:var(--gp);color:var(--g);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);white-space:nowrap}
+
+/* ── ADD OWNER MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-end;justify-content:center}
+.modal-bg.hidden{display:none}
+.modal{background:var(--card);border-radius:20px 20px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0));width:100%;max-width:480px;max-height:85vh;overflow-y:auto}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:17px;font-weight:500;margin-bottom:16px}
+.btn-outline{width:100%;background:transparent;color:var(--ink);border:1px solid var(--border);padding:13px;border-radius:var(--r);font-size:15px;cursor:pointer;font-family:var(--font);margin-top:8px}
+
+/* ── INBOX ── */
+.inbox-wrap{padding:16px}
+.inbox-empty{padding:40px 24px;text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
+.inbox-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:10px}
+.ii-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.ii-name{font-size:14px;font-weight:500}
+.ii-time{font-size:11px;color:var(--muted)}
+.ii-job{font-size:12px;color:var(--muted);margin-bottom:10px}
+.ii-actions{display:flex;gap:8px}
+.btn-yes{flex:1;background:var(--gp);color:var(--g);border:1px solid var(--gl);padding:9px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font)}
+.btn-no{flex:1;background:var(--rp);color:var(--red);border:1px solid #FCA5A5;padding:9px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font)}
+.ii-recorded{font-size:12px;font-weight:500;padding:8px 12px;border-radius:8px;text-align:center}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--card);padding:10px 18px;border-radius:100px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;z-index:999;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="back-btn" id="back-btn" onclick="goBack()">‹</div>
+      <div>
+        <div class="topbar-title" id="topbar-title">Fleet Dispatch</div>
+        <div class="topbar-sub" id="topbar-sub">Starbase Innovations</div>
+      </div>
+    </div>
+    <div class="sync-dot" id="sync-dot" title="Sync status"></div>
+  </div>
+
+  <!-- SCREENS -->
+  <div class="screen" id="screen">
+
+    <!-- SETUP -->
+    <div id="view-setup" class="setup-wrap" style="display:none">
+      <div class="setup-logo">
+        <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      </div>
+      <div class="setup-title">Fleet Dispatch Setup</div>
+      <div class="setup-sub">Enter your AWS Lambda URL and admin password once. Everything is saved on this device.</div>
+      <div class="setup-card">
+        <h3>Lambda Function URL</h3>
+        <div class="fg">
+          <label>Your Lambda URL</label>
+          <input type="url" id="s-url" placeholder="https://abc123.lambda-url.ap-south-1.on.aws" inputmode="url">
+          <div class="hint">From AWS Lambda → Configuration → Function URL. Make sure there is no trailing slash.</div>
+        </div>
+        <div class="fg">
+          <label>Admin Secret</label>
+          <input type="password" id="s-secret" placeholder="The ADMIN_SECRET you set in Lambda env vars">
+        </div>
+        <button class="btn-primary" onclick="testAndSave()" style="margin-bottom:10px">Test Connection & Save</button>
+        <div class="test-result" id="test-result"></div>
+      </div>
+      <div class="setup-card">
+        <h3>Your Name</h3>
+        <div class="fg">
+          <label>Fleet Manager Name</label>
+          <input type="text" id="s-name" placeholder="e.g. Arjun">
+        </div>
+        <div class="hint" style="font-size:12px;color:var(--muted);line-height:1.6">This is shown on the dashboard only. It does not affect WhatsApp messages.</div>
+      </div>
+    </div>
+
+    <!-- HOME -->
+    <div id="view-home" style="display:none">
+      <div class="home-header">
+        <div class="home-title">Good <span id="greeting-time">morning</span>, <span id="manager-name">Manager</span></div>
+        <div class="home-date" id="home-date"></div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num" id="st-total">0</div><div class="stat-lbl">Jobs today</div></div>
+        <div class="stat"><div class="stat-num sn-g" id="st-yes">0</div><div class="stat-lbl">YES</div></div>
+        <div class="stat"><div class="stat-num sn-a" id="st-pend">0</div><div class="stat-lbl">Pending</div></div>
+      </div>
+      <div class="section-header">Recent jobs</div>
+      <div class="job-cards" id="home-job-cards">
+        <div class="empty-state">No jobs yet today.<br>Tap <strong>+ New</strong> below to broadcast your first job.</div>
+      </div>
+    </div>
+
+    <!-- JOBS LIST -->
+    <div id="view-jobs" style="display:none">
+      <div style="padding:16px 16px 8px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:13px;color:var(--muted)" id="jobs-count">0 jobs</div>
+        <div style="font-size:13px;color:var(--gm);cursor:pointer" onclick="loadJobs()">↻ Refresh</div>
+      </div>
+      <div class="job-cards" id="all-job-cards">
+        <div class="empty-state">No jobs yet.</div>
+      </div>
+    </div>
+
+    <!-- COMPOSE -->
+    <div id="view-compose" style="display:none">
+      <div class="compose-wrap">
+        <div class="compose-card">
+          <div class="compose-card-title">Vehicle type</div>
+          <div class="chip-wrap" id="type-chips">
+            <div class="chip on" onclick="toggleType(this,'Mini Truck')">Mini Truck</div>
+            <div class="chip" onclick="toggleType(this,'Pickup Van')">Pickup Van</div>
+            <div class="chip" onclick="toggleType(this,'Compactor')">Compactor</div>
+            <div class="chip" onclick="toggleType(this,'Tata Ace')">Tata Ace</div>
+            <div class="chip" onclick="toggleType(this,'Any')">Any vehicle</div>
+          </div>
+        </div>
+        <div class="compose-card">
+          <div class="compose-card-title">Route</div>
+          <div class="fg"><label>Pickup point (From)</label><input type="text" id="c-from" placeholder="e.g. Calicut Port, Kozhikode"></div>
+          <div class="fg"><label>Drop point (To)</label><input type="text" id="c-to" placeholder="e.g. Edappal, Malappuram"></div>
+        </div>
+        <div class="compose-card">
+          <div class="compose-card-title">Schedule & Rate</div>
+          <div class="frow">
+            <div class="fg"><label>Date</label><input type="date" id="c-date"></div>
+            <div class="fg"><label>Time slot</label>
+              <select id="c-time">
+                <option>08:00–10:00</option>
+                <option>10:00–12:00</option>
+                <option>12:00–14:00</option>
+                <option>14:00–17:00</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label>Rate (₹)</label>
+              <div class="rate-wrap"><span>₹</span><input type="number" id="c-rate" inputmode="numeric"></div>
+            </div>
+            <div class="fg"><label>Distance (km)</label><input type="number" id="c-km" inputmode="numeric"></div>
+          </div>
+          <div class="fg"><label>Notes (optional)</label><input type="text" id="c-notes" placeholder="Cargo type, helpers, etc."></div>
+        </div>
+        <div class="compose-card">
+          <div class="compose-card-title">WhatsApp message preview</div>
+          <div class="preview-box">
+            <div class="prev-lbl">WILL BE SENT AS</div>
+            <div class="wa-bubble" id="wa-preview">Fill in route and rate to preview</div>
+          </div>
+        </div>
+        <button class="btn-wa" id="send-btn" onclick="sendJob()">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.974 0C5.395 0 0 5.395 0 11.974c0 2.097.548 4.068 1.505 5.773L.057 23.5l5.896-1.547a11.9 11.9 0 0 0 6.021 1.625c6.579 0 11.974-5.395 11.974-11.974C23.948 5.395 18.553 0 11.974 0z"/></svg>
+          Broadcast via WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- DETAIL -->
+    <div id="view-detail" style="display:none">
+      <div class="detail-wrap">
+        <div class="detail-info" id="detail-info"></div>
+        <button class="resend-btn" id="resend-btn" onclick="resendJob()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.974 0C5.395 0 0 5.395 0 11.974c0 2.097.548 4.068 1.505 5.773L.057 23.5l5.896-1.547a11.9 11.9 0 0 0 6.021 1.625c6.579 0 11.974-5.395 11.974-11.974C23.948 5.395 18.553 0 11.974 0z"/></svg>
+          Resend on WhatsApp
+        </button>
+        <div class="resp-filters">
+          <button class="rf on" onclick="setRF('all',this)">All</button>
+          <button class="rf fy" onclick="setRF('yes',this)">YES</button>
+          <button class="rf fn" onclick="setRF('no',this)">NO</button>
+          <button class="rf fp" onclick="setRF('pending',this)">Pending</button>
+        </div>
+        <div class="resp-list" id="resp-list"></div>
+        <button class="btn-primary" style="margin:0 0 10px" onclick="openAddOwner()">+ Add owner response manually</button>
+      </div>
+    </div>
+
+    <!-- INBOX -->
+    <div id="view-inbox" style="display:none">
+      <div style="padding:16px 16px 8px">
+        <div style="font-size:13px;color:var(--muted)">Tap a reply from your WhatsApp group to record it here</div>
+      </div>
+      <div class="inbox-wrap" id="inbox-list">
+        <div class="inbox-empty">No pending replies to record.<br>Once you broadcast a job and owners reply, add them here.</div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+
+  <!-- BOTTOM NAV -->
+  <div class="bottomnav" id="bottomnav">
+    <button class="bnav-btn active" id="nav-home" onclick="nav('home')">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      Home
+    </button>
+    <button class="bnav-btn" id="nav-jobs" onclick="nav('jobs')">
+      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Jobs
+    </button>
+    <button class="bnav-btn" id="nav-compose" onclick="nav('compose')" style="position:relative">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      New Job
+    </button>
+    <button class="bnav-btn" id="nav-inbox" onclick="nav('inbox')" style="position:relative">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Inbox
+      <span class="bnav-badge" id="inbox-badge" style="display:none">0</span>
+    </button>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ADD OWNER MODAL -->
+<div class="modal-bg hidden" id="modal-bg">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Record a reply</div>
+    <div class="fg"><label>Owner name</label><input type="text" id="m-name" placeholder="e.g. Rajan M."></div>
+    <div class="fg"><label>Phone (optional)</label><input type="tel" id="m-phone" placeholder="+91 94470 12345" inputmode="tel"></div>
+    <div class="fg"><label>Vehicle type</label>
+      <select id="m-vehicle">
+        <option>Mini Truck</option><option>Pickup Van</option><option>Compactor</option><option>Tata Ace</option>
+      </select>
+    </div>
+    <div class="fg"><label>Their reply</label>
+      <select id="m-status"><option value="yes">YES — they accepted</option><option value="no">NO — they declined</option></select>
+    </div>
+    <button class="btn-primary" onclick="saveOwnerReply()">Save Reply</button>
+    <button class="btn-outline" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── CONFIG (saved to localStorage) ── */
+let CFG = { url: '', secret: '', name: 'Manager' };
+try { const s = localStorage.getItem('sb_fleet_cfg'); if(s) CFG = {...CFG,...JSON.parse(s)}; } catch(e){}
+
+/* ── STATE ── */
+let jobs = [];
+let activeJobId = null;
+let rfFilter = 'all';
+let selTypes = new Set(['Mini Truck']);
+const COLORS = [
+  ['#E4F5ED','#1B4D3E'],['#FEF3C7','#92400E'],['#EDE9FE','#4C1D95'],
+  ['#E0F2FE','#0C4A6E'],['#DCFCE7','#14532D'],['#FFE4E6','#881337'],['#FEF9C3','#713F12']
+];
+function col(i){ return COLORS[Math.abs(i) % COLORS.length]; }
+
+/* ── INIT ── */
+window.addEventListener('load', () => {
+  const d = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  const dateEl = document.getElementById('c-date');
+  if(dateEl) dateEl.value = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  document.getElementById('home-date').textContent = d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  const hr = d.getHours();
+  document.getElementById('greeting-time').textContent = hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : 'evening';
+
+  if(!CFG.url || !CFG.secret) {
+    showView('setup');
+  } else {
+    document.getElementById('manager-name').textContent = CFG.name || 'Manager';
+    showView('home');
+    loadJobs();
+  }
+  setupFormListeners();
+});
+
+/* ── NAVIGATION ── */
+let currentView = 'home';
+let viewStack = [];
+
+function showView(v, pushStack = false) {
+  document.querySelectorAll('[id^="view-"]').forEach(el => el.style.display = 'none');
+  const el = document.getElementById('view-'+v);
+  if(el) el.style.display = 'block';
+  currentView = v;
+  const titles = { setup:'Setup', home:'Fleet Dispatch', jobs:'All Jobs', compose:'New Job', detail:'Job Detail', inbox:'Replies Inbox' };
+  document.getElementById('topbar-title').textContent = titles[v] || 'Fleet Dispatch';
+  document.getElementById('topbar-sub').textContent = v === 'detail' ? (getActiveJob()?.code || '') : 'Starbase Innovations';
+  document.getElementById('back-btn').style.display = ['detail','jobs'].includes(v) ? 'block' : 'none';
+  document.getElementById('bottomnav').style.display = v === 'setup' ? 'none' : 'flex';
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  const navMap = {home:'nav-home',jobs:'nav-jobs',compose:'nav-compose',inbox:'nav-inbox'};
+  if(navMap[v]) document.getElementById(navMap[v])?.classList.add('active');
+}
+
+function nav(v) {
+  viewStack = [];
+  if(v === 'home') { renderHome(); loadJobs(); }
+  if(v === 'jobs') renderJobsList();
+  if(v === 'compose') updatePreview();
+  if(v === 'inbox') renderInbox();
+  showView(v);
+}
+
+function goBack() {
+  if(currentView === 'detail') showView('jobs');
+  else showView('home');
+}
+
+/* ── SETUP ── */
+async function testAndSave() {
+  const rawUrl = document.getElementById('s-url').value.trim();
+  const url = rawUrl.replace(/\/+$/, ''); // strip trailing slashes
+  const secret = document.getElementById('s-secret').value.trim();
+  const name = document.getElementById('s-name').value.trim() || 'Manager';
+  const res = document.getElementById('test-result');
+  if(!url){ res.textContent = 'Please enter your Lambda URL'; res.className='test-result err'; res.style.display='block'; return; }
+  if(!url.startsWith('https://')){ res.textContent = 'URL must start with https://'; res.className='test-result err'; res.style.display='block'; return; }
+  if(!secret){ res.textContent = 'Please enter your admin secret'; res.className='test-result err'; res.style.display='block'; return; }
+  res.textContent = 'Testing connection…'; res.className='test-result'; res.style.display='block';
+  setSyncDot('syncing');
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    const r = await fetch(url + '/ping', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    if(r.status === 403){ res.textContent = '✗ Wrong password — check your Admin Secret matches what you set in Lambda env vars'; res.className='test-result err'; setSyncDot('err'); return; }
+    if(!r.ok){ res.textContent = '✗ Server error: ' + r.status + '. Check Lambda is deployed correctly.'; res.className='test-result err'; setSyncDot('err'); return; }
+    const data = await r.json();
+    if(data.ok) {
+      CFG = { url, secret, name };
+      localStorage.setItem('sb_fleet_cfg', JSON.stringify(CFG));
+      res.textContent = '✓ Connected successfully! Opening dashboard…'; res.className='test-result ok';
+      setSyncDot('ok');
+      document.getElementById('manager-name').textContent = name;
+      setTimeout(() => { showView('home'); loadJobs(); }, 900);
+    } else {
+      res.textContent = '✗ Server responded but returned an error.'; res.className='test-result err';
+      setSyncDot('err');
+    }
+  } catch(e) {
+    if(e.name === 'AbortError'){
+      res.textContent = '✗ Request timed out (10s). Lambda may be cold starting — try again in 5 seconds.';
+    } else if(e.message.includes('Failed to fetch') || e.message.includes('NetworkError')){
+      res.textContent = '✗ CORS or network error. Make sure your Lambda Function URL has Allow origin set to * and is deployed.';
+    } else {
+      res.textContent = '✗ Error: ' + e.message;
+    }
+    res.className='test-result err';
+    setSyncDot('err');
+  }
+}
+
+/* ── API CALLS ── */
+async function api(path, body = {}) {
+  setSyncDot('syncing');
+  try {
+    const r = await fetch(CFG.url + path, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'X-Admin-Secret': CFG.secret },
+      body: JSON.stringify(body)
+    });
+    const data = await r.json();
+    setSyncDot(data.ok ? 'ok' : 'err');
+    return data;
+  } catch(e) {
+    setSyncDot('err');
+    return { ok: false, error: e.message };
+  }
+}
+
+async function loadJobs() {
+  const data = await api('/job/list');
+  if(data.ok) {
+    jobs = data.jobs || [];
+    renderHome();
+    renderJobsList();
+    updateStats();
+    renderInbox();
+  }
+}
+
+/* ── COMPOSE ── */
+function toggleType(el, type) {
+  if(type === 'Any') {
+    document.querySelectorAll('#type-chips .chip').forEach(c => c.classList.remove('on'));
+    el.classList.add('on');
+    selTypes = new Set(['Mini Truck','Pickup Van','Compactor','Tata Ace']);
+  } else {
+    document.querySelector('#type-chips .chip:last-child').classList.remove('on');
+    el.classList.toggle('on');
+    if(el.classList.contains('on')) selTypes.add(type); else selTypes.delete(type);
+    if(selTypes.size === 4) document.querySelector('#type-chips .chip:last-child').classList.add('on');
+  }
+  updatePreview();
+}
+
+function setupFormListeners() {
+  ['c-from','c-to','c-date','c-time','c-rate','c-km','c-notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) { el.addEventListener('input', updatePreview); el.addEventListener('change', updatePreview); }
+  });
+}
+
+let currentCode = '';
+function updatePreview() {
+  const from  = document.getElementById('c-from')?.value || '';
+  const to    = document.getElementById('c-to')?.value || '';
+  const date  = document.getElementById('c-date')?.value || '';
+  const time  = document.getElementById('c-time')?.value || '';
+  const rate  = document.getElementById('c-rate')?.value || '';
+  const km    = document.getElementById('c-km')?.value || '';
+  const notes = document.getElementById('c-notes')?.value || '';
+  const types = [...selTypes].join(', ') || 'Any';
+  if(!currentCode) currentCode = 'JOB-' + Math.random().toString(36).slice(2,6).toUpperCase();
+  const lines = [
+    '🚛 *Job — Starbase Innovations*',
+    from&&to ? `📍 ${from} → ${to}` : '📍 (fill in route)',
+    date&&time ? `📅 ${date}  ⏰ ${time}` : '📅 (fill in date)',
+    rate ? `💰 ₹${rate}${km?' · '+km+' km':''}` : '💰 (fill in rate)',
+    `🚐 ${types}`,
+    notes ? `📝 ${notes}` : null,
+    '',
+    `Reply: *YES ${currentCode}* or *NO ${currentCode}*`,
+    `_Ref: ${currentCode}_`
+  ].filter(l=>l!==null);
+  const el = document.getElementById('wa-preview');
+  if(el) el.innerHTML = lines.join('<br>');
+}
+
+async function sendJob() {
+  const from  = document.getElementById('c-from').value.trim();
+  const to    = document.getElementById('c-to').value.trim();
+  const rate  = document.getElementById('c-rate').value.trim();
+  if(!from||!to||!rate){ toast('Fill in From, To and Rate to continue'); return; }
+  const body = {
+    from, to,
+    date:  document.getElementById('c-date').value,
+    time:  document.getElementById('c-time').value,
+    rate,
+    km:    document.getElementById('c-km').value,
+    notes: document.getElementById('c-notes').value,
+    vehicleTypes: [...selTypes]
+  };
+  const data = await api('/job/create', body);
+  if(!data.ok){ toast('Error saving job. Check your connection.'); return; }
+  jobs.unshift({ ...body, jobId: data.jobId, code: data.code, responses: {}, assigned: null, status:'open', createdAt: new Date().toISOString(), counts:{yes:0,no:0,pending:0}, waLink: data.waLink });
+  updateStats();
+  currentCode = '';
+  updatePreview();
+  window.location.href = data.waLink;
+  setTimeout(() => {
+    nav('jobs');
+    toast('Job saved! WhatsApp opened with the message.');
+  }, 500);
+}
+
+/* ── RENDER JOBS ── */
+function renderHome() {
+  const el = document.getElementById('home-job-cards');
+  const today = new Date().toISOString().slice(0,10);
+  const todayJobs = jobs.filter(j => j.createdAt?.slice(0,10) === today);
+  if(!todayJobs.length){ el.innerHTML='<div class="empty-state">No jobs yet today.<br>Tap <strong>+ New Job</strong> below to broadcast.</div>'; return; }
+  el.innerHTML = todayJobs.slice(0,4).map(j => jobCardHTML(j)).join('');
+}
+
+function renderJobsList() {
+  const el = document.getElementById('all-job-cards');
+  document.getElementById('jobs-count').textContent = jobs.length + ' job' + (jobs.length!==1?'s':'');
+  if(!jobs.length){ el.innerHTML='<div class="empty-state">No jobs yet.</div>'; return; }
+  el.innerHTML = jobs.map(j => jobCardHTML(j)).join('');
+}
+
+function jobCardHTML(j) {
+  const c = j.counts || {yes:0,no:0,pending:0};
+  const tot = Math.max((c.yes+c.no+c.pending), 1);
+  return `<div class="job-card" onclick="openDetail('${j.jobId}')">
+    ${j.assigned ? `<span class="assigned-tag">✓ Assigned</span>` : ''}
+    <div class="jc-top">
+      <div class="jc-route">${j.from?.split(',')[0]} → ${j.to?.split(',')[0]}</div>
+      <div class="jc-code">${j.code}</div>
+    </div>
+    <div class="jc-meta">₹${j.rate}${j.km?' · '+j.km+' km':''} · ${(j.vehicleTypes||[]).join(', ')||'Any'}</div>
+    <div class="jc-progress">
+      <div class="jc-bar-wrap"><div class="jc-bar bar-y" style="width:${Math.round(c.yes/tot*100)}%"></div></div>
+      <div class="jc-bar-wrap"><div class="jc-bar bar-n" style="width:${Math.round(c.no/tot*100)}%"></div></div>
+      <div class="jc-bar-wrap"><div class="jc-bar bar-p" style="width:${Math.round(c.pending/tot*100)}%"></div></div>
+    </div>
+    <div class="jc-counts">
+      <span class="cnt-y">✓ ${c.yes} YES</span>
+      <span class="cnt-n">✗ ${c.no} NO</span>
+      <span class="cnt-p">⏳ ${c.pending} pending</span>
+    </div>
+  </div>`;
+}
+
+/* ── DETAIL ── */
+function getActiveJob() { return jobs.find(j => j.jobId === activeJobId); }
+
+function openDetail(jobId) {
+  activeJobId = jobId;
+  renderDetail();
+  showView('detail', true);
+}
+
+function renderDetail() {
+  const j = getActiveJob();
+  if(!j) return;
+  document.getElementById('topbar-sub').textContent = j.code;
+  document.getElementById('detail-info').innerHTML = `
+    <div class="di-row"><span class="di-lbl">Route</span><span class="di-val">${j.from} → ${j.to}</span></div>
+    <div class="di-row"><span class="di-lbl">Date & time</span><span class="di-val">${j.date} · ${j.time}</span></div>
+    <div class="di-row"><span class="di-lbl">Rate</span><span class="di-val">₹${j.rate}${j.km?' / '+j.km+' km':''}</span></div>
+    <div class="di-row"><span class="di-lbl">Vehicle</span><span class="di-val">${(j.vehicleTypes||[]).join(', ')||'Any'}</span></div>
+    <div class="di-row"><span class="di-lbl">Job code</span><span class="di-val di-code">${j.code}</span></div>
+    ${j.assigned ? `<div class="di-row"><span class="di-lbl">Assigned</span><span class="di-val" style="color:var(--gm)">✓ ${j.assigned}</span></div>` : ''}
+  `;
+  document.getElementById('resend-btn').dataset.walink = j.waLink || '';
+  renderResponses();
+}
+
+function resendJob() {
+  const link = document.getElementById('resend-btn').dataset.walink;
+  if(link) window.location.href = link;
+}
+
+function renderResponses() {
+  const j = getActiveJob();
+  if(!j) return;
+  const resps = Object.entries(j.responses || {});
+  const filtered = rfFilter === 'all' ? resps : resps.filter(([,r]) => r.status === rfFilter);
+  const el = document.getElementById('resp-list');
+  if(!filtered.length){ el.innerHTML='<div style="text-align:center;padding:24px;font-size:14px;color:var(--muted)">No responses in this filter</div>'; return; }
+  el.innerHTML = filtered.map(([key, r], i) => {
+    const [bg,tc] = col(i);
+    const initials = (r.name||'?').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase();
+    const isY = r.status==='yes', isN = r.status==='no';
+    return `<div class="resp-row">
+      <div class="r-av" style="background:${bg};color:${tc}">${initials}</div>
+      <div class="r-info">
+        <div class="r-name">${r.name||'Unknown'}</div>
+        <div class="r-veh">${r.vehicle||''}</div>
+      </div>
+      <span class="r-badge ${isY?'by':isN?'bn':'bp'}">${isY?'YES':isN?'NO':'?'}</span>
+      ${r.t ? `<span class="r-time">${new Date(r.t).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</span>` : ''}
+      ${isY && !j.assigned ? `<button class="assign-btn" onclick="assignJob('${key}','${r.name||''}')">Assign</button>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function setRF(f, btn) {
+  rfFilter = f;
+  document.querySelectorAll('.rf').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderResponses();
+}
+
+async function assignJob(key, name) {
+  const j = getActiveJob();
+  if(!j) return;
+  const data = await api('/job/assign', { jobId: j.jobId, ownerName: name });
+  if(data.ok) {
+    j.assigned = name;
+    j.status = 'assigned';
+    renderDetail();
+    renderJobsList();
+    toast(`Job assigned to ${name}`);
+  }
+}
+
+/* ── ADD OWNER MODAL ── */
+function openAddOwner() {
+  document.getElementById('modal-bg').classList.remove('hidden');
+  document.getElementById('m-name').focus();
+}
+function closeModal() { document.getElementById('modal-bg').classList.add('hidden'); }
+
+async function saveOwnerReply() {
+  const name    = document.getElementById('m-name').value.trim();
+  const phone   = document.getElementById('m-phone').value.trim();
+  const vehicle = document.getElementById('m-vehicle').value;
+  const status  = document.getElementById('m-status').value;
+  const j = getActiveJob();
+  if(!name){ toast('Enter the owner name'); return; }
+  if(!j){ closeModal(); return; }
+  const data = await api('/reply/record', { jobId: j.jobId, ownerName: name, ownerPhone: phone, status });
+  if(data.ok) {
+    const key = phone || name.replace(/\s/g,'_') + '_' + Date.now();
+    if(!j.responses) j.responses = {};
+    j.responses[key] = { name, phone, vehicle, status, t: new Date().toISOString() };
+    const c = j.counts || {yes:0,no:0,pending:0};
+    if(status==='yes') c.yes++; else c.no++;
+    j.counts = c;
+    closeModal();
+    renderDetail();
+    renderJobsList();
+    renderHome();
+    updateStats();
+    toast(`${name} recorded as ${status.toUpperCase()}`);
+    document.getElementById('m-name').value = '';
+    document.getElementById('m-phone').value = '';
+  } else {
+    toast('Error saving. Check your connection.');
+  }
+}
+
+/* ── INBOX ── */
+function renderInbox() {
+  const el = document.getElementById('inbox-list');
+  const pending = jobs.filter(j => j.status === 'open' && j.counts?.pending > 0);
+  let badge = 0;
+  pending.forEach(j => badge += (j.counts?.pending || 0));
+  const b = document.getElementById('inbox-badge');
+  if(badge > 0){ b.style.display='inline'; b.textContent=badge; } else { b.style.display='none'; }
+  if(!pending.length){ el.innerHTML='<div class="inbox-empty">No jobs with pending replies right now.</div>'; return; }
+  el.innerHTML = pending.map(j => `
+    <div class="inbox-item">
+      <div class="ii-top"><span class="ii-name">${j.from?.split(',')[0]} → ${j.to?.split(',')[0]}</span><span class="ii-time">${j.code}</span></div>
+      <div class="ii-job">₹${j.rate} · ${(j.vehicleTypes||[]).join(', ')||'Any'} · ${j.counts?.pending||0} pending</div>
+      <button class="btn-primary" style="font-size:13px;padding:10px" onclick="openDetail('${j.jobId}');nav('detail')">Record replies for this job →</button>
+    </div>`).join('');
+}
+
+/* ── STATS ── */
+function updateStats() {
+  const today = new Date().toISOString().slice(0,10);
+  const todayJobs = jobs.filter(j => j.createdAt?.slice(0,10) === today);
+  let yes=0, pend=0;
+  todayJobs.forEach(j => { yes += j.counts?.yes||0; pend += j.counts?.pending||0; });
+  document.getElementById('st-total').textContent = todayJobs.length;
+  document.getElementById('st-yes').textContent   = yes;
+  document.getElementById('st-pend').textContent  = pend;
+}
+
+/* ── UTILITIES ── */
+function setSyncDot(state) {
+  const d = document.getElementById('sync-dot');
+  d.className = 'sync-dot' + (state !== 'idle' ? ' ' + (state==='ok'?'ok':state==='syncing'?'syncing':'err') : '');
+  if(state === 'ok') setTimeout(() => d.className='sync-dot', 3000);
+}
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
