@@ -142,6 +142,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 .own-active{width:8px;height:8px;border-radius:50%;background:var(--gl);flex-shrink:0}
 .own-inactive{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
 .add-own-btn{width:100%;background:var(--g);color:#fff;border:none;padding:12px;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--f);margin-bottom:10px}
+.own-actions{display:flex;gap:6px;flex-shrink:0}
+.own-edit{padding:5px 10px;border-radius:var(--rs);border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:12px;cursor:pointer;font-family:var(--f)}
+.own-del{padding:5px 10px;border-radius:var(--rs);border:1px solid var(--rp);background:var(--rp);color:var(--rc);font-size:12px;cursor:pointer;font-family:var(--f)}
 .import-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px}
 .import-box .ch{margin-bottom:8px}
 
@@ -851,10 +854,21 @@ function renderOwners(){
   el.innerHTML=OWNERS.map(function(o,i){
     var c=col(i);
     var init=(o.name||'?').split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase();
+    var safePhone=(o.phone||'').replace(/'/g,"\'");
+    var safeName=(o.name||'').replace(/'/g,"\'");
+    var safeVt=(o.vehicleType||'').replace(/'/g,"\'");
+    var safeArea=(o.area||'').replace(/'/g,"\'");
     return '<div class="own-row">'
       +'<div class="own-av" style="background:'+c[0]+';color:'+c[1]+'">'+init+'</div>'
-      +'<div class="own-info"><div class="own-name">'+(o.name||'Unknown')+'</div><div class="own-meta">'+(o.vehicleType||'')+(o.area?' - '+o.area:'')+'<br>'+o.phone+'</div></div>'
-      +'<div class="'+(o.active!==false?'own-active':'own-inactive')+'"></div>'
+      +'<div class="own-info">'
+      +'<div class="own-name">'+(o.name||'Unknown')+'</div>'
+      +'<div class="own-meta">'+(o.vehicleType||'')+(o.area?' · '+o.area:'')+'</div>'
+      +'<div class="own-meta">'+o.phone+'</div>'
+      +'</div>'
+      +'<div class="own-actions">'
+      +'<button class="own-edit" onclick="editOwner(''+safePhone+'',''+safeName+'',''+safeVt+'',''+safeArea+'')">Edit</button>'
+      +'<button class="own-del" onclick="deleteOwner(''+safePhone+'',''+safeName+'')">Delete</button>'
+      +'</div>'
       +'</div>';
   }).join('');
 }
@@ -865,14 +879,44 @@ function updateBadge(){
   if(n>0){b.style.display='inline';b.textContent=n;}else b.style.display='none';
 }
 
+var EDIT_PHONE='';
+
 function openAddOwner(){
+  EDIT_PHONE='';
+  document.getElementById('add-own-title').textContent='Add owner';
   document.getElementById('ow-nm').value='';
   document.getElementById('ow-ph').value='';
+  document.getElementById('ow-ph').disabled=false;
   document.getElementById('ow-ar').value='';
   document.getElementById('ow-vt-12').checked=false;
   document.getElementById('ow-vt-14').checked=false;
   document.getElementById('ob').classList.add('on');
   setTimeout(function(){document.getElementById('ow-nm').focus();},300);
+}
+
+function editOwner(phone,name,vt,area){
+  EDIT_PHONE=phone;
+  document.getElementById('add-own-title').textContent='Edit owner';
+  document.getElementById('ow-nm').value=name||'';
+  document.getElementById('ow-ph').value=phone||'';
+  document.getElementById('ow-ph').disabled=true;
+  document.getElementById('ow-ar').value=area||'';
+  document.getElementById('ow-vt-12').checked=(vt||'').indexOf('12 Wheeler')>=0;
+  document.getElementById('ow-vt-14').checked=(vt||'').indexOf('14 Wheeler')>=0;
+  document.getElementById('ob').classList.add('on');
+  setTimeout(function(){document.getElementById('ow-nm').focus();},300);
+}
+
+async function deleteOwner(phone,name){
+  if(!confirm('Delete '+name+'? This cannot be undone.')){return;}
+  var d=await api('/owners/delete',{phone:phone});
+  if(d.ok){
+    OWNERS=OWNERS.filter(function(o){return o.phone!==phone;});
+    renderOwners();
+    toast(name+' deleted');
+  }else{
+    toast('Error deleting owner');
+  }
 }
 function closeOwnerModal(){document.getElementById('ob').classList.remove('on');}
 
@@ -886,13 +930,13 @@ async function saveOwner(){
   if(!vt){toast('Select at least one vehicle type');return;}
   var d=await api('/owners/save',{owners:[{phone:ph,name:nm,vehicleType:vt,area:ar,active:true}]});
   if(d.ok){
-    // Update local
     var idx=OWNERS.findIndex(function(o){return o.phone===ph;});
     if(idx>=0)OWNERS[idx]={phone:ph,name:nm,vehicleType:vt,area:ar,active:true};
     else OWNERS.push({phone:ph,name:nm,vehicleType:vt,area:ar,active:true});
     closeOwnerModal();renderOwners();
-    toast(nm+' saved successfully');
-  }else toast('Error saving owner');
+    toast(nm+(EDIT_PHONE?' updated':' added')+ ' successfully');
+    EDIT_PHONE='';
+  }else toast('Error saving. Check connection.');
 }
 
 async function doImport(){
