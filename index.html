@@ -31,47 +31,48 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 #bt{flex:1}
 #bt-t{font-size:16px;font-weight:500}
 #bt-s{font-size:11px;color:var(--muted);margin-top:1px}
-#sy{width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .3s}
+#sy{width:9px;height:9px;border-radius:50%;background:var(--border);flex-shrink:0}
 #sy.s{background:var(--am);animation:bl 1s infinite}
 #sy.ok{background:var(--gl)}
 #sy.er{background:var(--red)}
 @keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
 #scr{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #nav{background:var(--card);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom,0);flex-shrink:0}
-.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;border:none;background:none;color:var(--muted);font-family:var(--f);font-size:10px;cursor:pointer;position:relative;transition:color .15s}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;border:none;background:none;color:var(--muted);font-family:var(--f);font-size:10px;cursor:pointer;position:relative}
 .nb.on{color:var(--gm)}
 .nb svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #bdg{position:absolute;top:6px;right:calc(50% - 20px);background:var(--red);color:#fff;font-size:9px;padding:1px 4px;border-radius:100px;display:none;font-weight:500}
-.vw{display:none;padding-bottom:24px}
-.vw.on{display:block}
-
-/* shared */
+.vw{display:none;padding-bottom:24px}.vw.on{display:block}
 .pad{padding:16px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px}
 .ch{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-family:var(--m);margin-bottom:12px}
 .fg{margin-bottom:10px}
 .fg label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;font-family:var(--m)}
-.fg input,.fg select,.fg textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;color:var(--ink);font-family:var(--f);font-size:14px;outline:none;transition:border-color .2s}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gm)}
-.fg textarea{resize:none}
+.fg input,.fg select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;color:var(--ink);font-family:var(--f);font-size:14px;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus{border-color:var(--gm)}
 .hint{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.55}
-.btn-g{width:100%;background:var(--g);color:#fff;border:none;padding:13px;border-radius:var(--r);font-size:15px;font-weight:500;cursor:pointer;font-family:var(--f);transition:opacity .15s}
-.btn-g:active{opacity:.8}
-.btn-g:disabled{opacity:.45;cursor:default}
+.btn-g{width:100%;background:var(--g);color:#fff;border:none;padding:13px;border-radius:var(--r);font-size:15px;font-weight:500;cursor:pointer;font-family:var(--f)}
+.btn-g:active{opacity:.85}
 .rb{margin-top:10px;padding:10px 12px;border-radius:var(--rs);font-size:13px;display:none;line-height:1.55}
-.rb.ok{background:var(--gp);color:var(--gc)}
-.rb.er{background:var(--rp);color:var(--rc)}
+.rb.ok{background:var(--gp);color:var(--gc)}.rb.er{background:var(--rp);color:var(--rc)}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .empty{padding:36px 20px;text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
 .sec-h{padding:0 16px 8px;font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--m)}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
-.chip{padding:7px 14px;border-radius:100px;font-size:13px;cursor:pointer;border:1px solid var(--border);background:var(--bg);color:var(--muted);user-select:none;transition:all .15s;font-family:var(--f)}
+.chip{padding:8px 16px;border-radius:100px;font-size:13px;cursor:pointer;border:1px solid var(--border);background:var(--bg);color:var(--muted);user-select:none;transition:all .15s;font-family:var(--f)}
 .chip.on{background:var(--gp);color:var(--gc);border-color:var(--gl)}
 .rw{position:relative}
 .rw span{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
 .rw input{padding-left:30px}
-
-/* home */
+.prev-wrap{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px}
+.prev-l{font-size:10px;color:var(--muted);letter-spacing:.06em;font-family:var(--m);margin-bottom:8px}
+.wa-msg{background:#dcf8c6;border-radius:2px 10px 10px 10px;padding:10px 12px;font-size:12px;color:#111;line-height:1.75;word-break:break-word}
+.owner-sel{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;font-size:13px;color:var(--muted);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.owner-sel .count{background:var(--gp);color:var(--gc);padding:2px 8px;border-radius:100px;font-size:11px;font-weight:500}
+.btn-wa{width:100%;background:#25D366;color:#fff;border:none;padding:14px;border-radius:var(--r);font-size:15px;font-weight:500;cursor:pointer;font-family:var(--f);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-wa:active{opacity:.85}
+.btn-wa:disabled{opacity:.5;cursor:default}
+.wa-ic{width:20px;height:20px;fill:white;flex-shrink:0}
 .greet{padding:18px 16px 10px}
 .greet-h{font-size:20px;font-weight:500}
 .greet-d{font-size:13px;color:var(--muted);margin-top:3px}
@@ -93,31 +94,15 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 .jcnt{display:flex;gap:10px;font-size:12px}
 .cy{color:var(--gm);font-weight:500}.cn{color:var(--red);font-weight:500}.cp{color:var(--muted)}
 .asgn{position:absolute;top:11px;right:50px;font-size:10px;background:var(--gp);color:var(--gc);padding:2px 8px;border-radius:100px;font-weight:500}
-
-/* wa button */
-.btn-wa{width:100%;background:#25D366;color:#fff;border:none;padding:14px;border-radius:var(--r);font-size:15px;font-weight:500;cursor:pointer;font-family:var(--f);display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .15s}
-.btn-wa:active{opacity:.85}
-.btn-wa:disabled{opacity:.45;cursor:default}
-.wa-ic{width:20px;height:20px;fill:white;flex-shrink:0}
-
-/* compose */
-.prev-wrap{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px}
-.prev-l{font-size:10px;color:var(--muted);letter-spacing:.06em;font-family:var(--m);margin-bottom:8px}
-.wa-msg{background:#dcf8c6;border-radius:2px 10px 10px 10px;padding:10px 12px;font-size:12px;color:#111;line-height:1.75;word-break:break-word}
-.owner-sel{background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;font-size:13px;color:var(--muted);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.owner-sel .count{background:var(--gp);color:var(--gc);padding:2px 8px;border-radius:100px;font-size:11px;font-weight:500}
-
-/* detail */
 .info-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:12px}
 .ir{display:flex;justify-content:space-between;align-items:center;padding:11px 15px;border-bottom:1px solid var(--border);font-size:14px;gap:10px}
 .ir:last-child{border:none}
 .irl{color:var(--muted);font-size:13px;flex-shrink:0}
 .irv{font-weight:500;text-align:right}
-.irc{font-family:var(--m);font-size:13px}
 .resend{width:100%;background:transparent;color:#25D366;border:1.5px solid #25D366;padding:11px;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--f);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px}
 .flt{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto}
 .flt::-webkit-scrollbar{display:none}
-.rf{padding:6px 14px;border-radius:100px;font-size:12px;border:1px solid var(--border);background:var(--card);color:var(--muted);white-space:nowrap;cursor:pointer;font-family:var(--f);transition:all .15s}
+.rf{padding:6px 14px;border-radius:100px;font-size:12px;border:1px solid var(--border);background:var(--card);color:var(--muted);white-space:nowrap;cursor:pointer;font-family:var(--f)}
 .rf.fa.on{background:var(--bg);color:var(--ink);border-color:var(--muted)}
 .rf.fy.on{background:var(--gp);color:var(--gc);border-color:var(--gl)}
 .rf.fn.on{background:var(--rp);color:var(--rc);border-color:#FCA5A5}
@@ -132,23 +117,16 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 .rtm{font-size:11px;color:var(--muted);white-space:nowrap}
 .asgn-btn{padding:5px 11px;border-radius:var(--rs);border:1px solid var(--gl);background:var(--gp);color:var(--gc);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--f);white-space:nowrap}
 .add-btn{width:100%;background:var(--bg);color:var(--gm);border:1.5px dashed var(--gl);padding:11px;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--f);margin-top:10px}
-
-/* owners */
+.add-own-btn{width:100%;background:var(--g);color:#fff;border:none;padding:12px;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--f);margin-bottom:10px}
+.import-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px}
 .own-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 13px;margin-bottom:7px}
-.own-av{width:36px;height:36px;border-radius:50%;background:var(--gp);color:var(--gc);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.own-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
 .own-info{flex:1;min-width:0}
 .own-name{font-size:14px;font-weight:500}
 .own-meta{font-size:12px;color:var(--muted)}
-.own-active{width:8px;height:8px;border-radius:50%;background:var(--gl);flex-shrink:0}
-.own-inactive{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
-.add-own-btn{width:100%;background:var(--g);color:#fff;border:none;padding:12px;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--f);margin-bottom:10px}
 .own-actions{display:flex;gap:6px;flex-shrink:0}
 .own-edit{padding:5px 10px;border-radius:var(--rs);border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:12px;cursor:pointer;font-family:var(--f)}
 .own-del{padding:5px 10px;border-radius:var(--rs);border:1px solid var(--rp);background:var(--rp);color:var(--rc);font-size:12px;cursor:pointer;font-family:var(--f)}
-.import-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px}
-.import-box .ch{margin-bottom:8px}
-
-/* modal */
 #mb{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 #mb.on{opacity:1;pointer-events:all}
 #md{background:var(--card);border-radius:20px 20px 0 0;padding:20px 20px 0;width:100%;max-width:430px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:88vh;overflow-y:auto}
@@ -157,27 +135,29 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 .mt{font-size:17px;font-weight:500;margin-bottom:16px}
 .mf{padding:16px 0 calc(16px + env(safe-area-inset-bottom,0));display:flex;gap:8px}
 .btn-cl{flex:1;background:var(--bg);color:var(--ink);border:1px solid var(--border);padding:13px;border-radius:var(--r);font-size:15px;cursor:pointer;font-family:var(--f)}
-
-/* owner select modal */
 #ob{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 #ob.on{opacity:1;pointer-events:all}
-#od{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:430px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:80vh;display:flex;flex-direction:column}
+#od{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:430px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:88vh;overflow-y:auto;padding:20px 20px 0}
 #ob.on #od{transform:translateY(0)}
-.od-top{padding:16px 16px 0;flex-shrink:0}
+#ob2{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+#ob2.on{opacity:1;pointer-events:all}
+#od2{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:430px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:80vh;display:flex;flex-direction:column}
+#ob2.on #od2{transform:translateY(0)}
 .od-scroll{overflow-y:auto;padding:8px 16px 16px;flex:1}
-.od-sel-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
-.od-sel-row:last-child{border:none}
-.od-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
-.od-check.on{background:var(--gm);border-color:var(--gm);color:#fff}
+.od-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.od-row:last-child{border:none}
+.od-ck{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;transition:all .15s}
+.od-ck.on{background:var(--gm);border-color:var(--gm);color:#fff}
 .od-n{flex:1}
 .od-name{font-size:14px;font-weight:500}
 .od-meta{font-size:12px;color:var(--muted)}
-
-/* toast */
-#toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--card);padding:10px 18px;border-radius:100px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:200;max-width:calc(100% - 32px);text-align:center}
+#send-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+#send-modal{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:430px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:88vh;overflow-y:auto;padding:20px 20px 0}
+#toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--card);padding:10px 18px;border-radius:100px;font-size:13px;font-weight:500;opacity:0;transition:all .3s;pointer-events:none;z-index:300;max-width:calc(100% - 32px);text-align:center}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-#send-modal-bg.on{opacity:1 !important;pointer-events:all !important}
-#send-modal-bg.on #send-modal{transform:translateY(0) !important}
+.vt-check{display:flex;gap:16px;margin-top:4px}
+.vt-check label{display:flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;font-weight:400;color:var(--ink);text-transform:none;letter-spacing:0;font-family:var(--f)}
+.vt-check input[type=checkbox]{width:20px;height:20px;accent-color:var(--gm);cursor:pointer;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -199,19 +179,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
         <div style="font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:22px">Connect to your AWS Lambda once. Saved on this device.</div>
         <div class="card">
           <div class="ch">Lambda connection</div>
-          <div class="fg">
-            <label>Lambda Function URL</label>
-            <input type="url" id="s-url" placeholder="https://abc123.lambda-url.ap-south-1.on.aws" autocomplete="off" autocapitalize="off">
-            <div class="hint">No trailing slash. From Lambda > Configuration > Function URL.</div>
-          </div>
-          <div class="fg">
-            <label>Admin secret</label>
-            <input type="password" id="s-secret" placeholder="Your ADMIN_SECRET from Lambda env vars">
-          </div>
-          <div class="fg">
-            <label>Your name</label>
-            <input type="text" id="s-name" placeholder="e.g. Arjun">
-          </div>
+          <div class="fg"><label>Lambda Function URL</label><input type="url" id="s-url" placeholder="https://abc123.lambda-url.ap-south-1.on.aws" autocomplete="off" autocapitalize="off"><div class="hint">No trailing slash.</div></div>
+          <div class="fg"><label>Admin secret</label><input type="password" id="s-secret" placeholder="Your ADMIN_SECRET from Lambda env vars"></div>
+          <div class="fg"><label>Your name</label><input type="text" id="s-name" placeholder="e.g. Arjun"></div>
           <button class="btn-g" onclick="doSetup()">Test connection and save</button>
           <div class="rb" id="s-rb"></div>
         </div>
@@ -220,10 +190,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 
     <!-- HOME -->
     <div id="v-home" class="vw">
-      <div class="greet">
-        <div class="greet-h">Good <span id="gw">morning</span>, <span id="gn">Manager</span></div>
-        <div class="greet-d" id="gdate"></div>
-      </div>
+      <div class="greet"><div class="greet-h">Good <span id="gw">morning</span>, <span id="gn">Manager</span></div><div class="greet-d" id="gdate"></div></div>
       <div class="stats">
         <div class="st"><div class="sn" id="st0">0</div><div class="sl">Today</div></div>
         <div class="st"><div class="sn sg" id="st1">0</div><div class="sl">YES</div></div>
@@ -261,33 +228,28 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
             <div class="fg"><label>Date</label><input type="date" id="cd" onchange="upPrev()"></div>
             <div class="fg"><label>Time</label>
               <select id="ctm" onchange="upPrev()">
-                <option>08:00 - 10:00</option><option>10:00 - 12:00</option>
-                <option>12:00 - 14:00</option><option>14:00 - 17:00</option>
+                <option>06:00 - 09:00</option><option>09:00 - 12:00</option>
+                <option>12:00 - 15:00</option><option>15:00 - 18:00</option><option>18:00 - 21:00</option>
               </select>
             </div>
           </div>
           <div class="frow">
-            <div class="fg"><label>Rate</label>
-              <div class="rw"><span>Rs</span><input type="number" id="cr" inputmode="numeric" oninput="upPrev()"></div>
-            </div>
-            <div class="fg"><label>Distance km</label><input type="number" id="ck" inputmode="numeric" placeholder="optional" oninput="upPrev()"></div>
+            <div class="fg"><label>Rate (Rs.)</label><div class="rw"><span>Rs</span><input type="number" id="cr" inputmode="numeric" oninput="upPrev()" style="padding-left:32px"></div></div>
+            <div class="fg"><label>Distance (km)</label><input type="number" id="ck" inputmode="numeric" placeholder="optional" oninput="upPrev()"></div>
           </div>
           <div class="fg"><label>Notes</label><input type="text" id="cn" placeholder="Cargo type, special requirements..." oninput="upPrev()"></div>
         </div>
         <div class="card">
           <div class="ch">Send to owners</div>
-          <div class="owner-sel" id="own-sel-btn" onclick="openOwnerPicker()">
+          <div class="owner-sel" onclick="openOwnerPicker()">
             <span id="own-sel-text">Tap to select fleet owners</span>
             <span class="count" id="own-sel-count">0 selected</span>
           </div>
-          <div class="hint" style="margin-top:6px">Select which owners to message individually. Only owners matching the vehicle type are shown.</div>
+          <div class="hint" style="margin-top:6px">Only owners matching the selected vehicle type are shown.</div>
         </div>
         <div class="card">
           <div class="ch">Message preview</div>
-          <div class="prev-wrap">
-            <div class="prev-l">EACH OWNER RECEIVES THIS INDIVIDUALLY</div>
-            <div class="wa-msg" id="wprev">Fill in trip details to preview</div>
-          </div>
+          <div class="prev-wrap"><div class="prev-l">EACH OWNER RECEIVES THIS INDIVIDUALLY</div><div class="wa-msg" id="wprev">Fill in trip details to preview</div></div>
         </div>
         <button class="btn-wa" id="snd-btn" onclick="doBroadcast()">
           <svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.974 0C5.395 0 0 5.395 0 11.974c0 2.097.548 4.068 1.505 5.773L.057 23.5l5.896-1.547a11.9 11.9 0 0 0 6.021 1.625c6.579 0 11.974-5.395 11.974-11.974C23.948 5.395 18.553 0 11.974 0z"/></svg>
@@ -300,7 +262,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
     <div id="v-detail" class="vw">
       <div class="pad">
         <div class="info-card" id="d-info"></div>
-        <button class="resend" id="resend-b" onclick="doResend()">
+        <button class="resend" onclick="doResend()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.974 0C5.395 0 0 5.395 0 11.974c0 2.097.548 4.068 1.505 5.773L.057 23.5l5.896-1.547a11.9 11.9 0 0 0 6.021 1.625c6.579 0 11.974-5.395 11.974-11.974C23.948 5.395 18.553 0 11.974 0z"/></svg>
           Resend to all owners
         </button>
@@ -321,17 +283,17 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
         <button class="add-own-btn" onclick="openAddOwner()">+ Add new owner</button>
         <div class="import-box">
           <div class="ch">Import from spreadsheet</div>
-          <div style="font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:10px">Paste your owners data below. One owner per line in this format:<br><strong>Phone, Name, Vehicle Type, Area</strong><br>Example: 919447012345, Rajan M., Mini Truck, Kozhikode North</div>
-          <div class="fg"><textarea id="import-txt" rows="5" placeholder="919447012345, Rajan M., Mini Truck, Kozhikode North&#10;919447023456, Suresh K., Pickup Van, Malappuram&#10;919447034567, Anwar H., Compactor, Thrissur"></textarea></div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:10px">One owner per line:<br><strong>Phone, Name, Vehicle, Area</strong><br>Example: 919447012345, Rajan, 12 Wheeler, Kozhikode</div>
+          <div class="fg"><textarea id="import-txt" rows="4" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;color:var(--ink);font-family:var(--f);font-size:13px;outline:none;resize:none" placeholder="919447012345, Rajan M., 12 Wheeler, Kozhikode&#10;919447023456, Suresh K., 14 Wheeler, Malappuram&#10;919447034567, Anwar H., 12 Wheeler &amp; 14 Wheeler, Thrissur"></textarea></div>
           <button class="btn-g" onclick="doImport()">Import owners</button>
           <div class="rb" id="import-rb"></div>
         </div>
-        <div class="sec-h" style="padding-left:0">Your fleet owners (<span id="own-count">0</span>)</div>
-        <div id="own-list"><div class="empty">No owners added yet.</div></div>
+        <div class="sec-h" style="padding-left:0">Fleet owners (<span id="own-count">0</span>)</div>
+        <div id="own-list"><div class="empty">No owners yet.</div></div>
       </div>
     </div>
 
-  </div><!-- /scr -->
+  </div>
 
   <div id="nav">
     <button class="nb on" id="nb-home" onclick="goNav('home')">
@@ -343,7 +305,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
     <button class="nb" id="nb-compose" onclick="goNav('compose')">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>New Job
     </button>
-    <button class="nb" id="nb-owners" onclick="goNav('owners')">
+    <button class="nb" id="nb-owners" onclick="goNav('owners')" style="position:relative">
       <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Owners
       <span id="bdg">0</span>
     </button>
@@ -357,57 +319,44 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
     <div class="mt">Record reply manually</div>
     <div class="fg"><label>Owner name</label><input type="text" id="m-nm" placeholder="e.g. Rajan M."></div>
     <div class="fg"><label>Phone (optional)</label><input type="tel" id="m-ph" placeholder="+91 94470 12345" inputmode="tel"></div>
-    <div class="fg"><label>Vehicle type</label>
-      <select id="m-vt"><option>Mini Truck</option><option>Pickup Van</option><option>Compactor</option><option>Tata Ace</option></select>
-    </div>
-    <div class="fg"><label>Their reply</label>
-      <select id="m-st"><option value="yes">YES - accepted</option><option value="no">NO - declined</option></select>
-    </div>
-    <div class="mf">
-      <button class="btn-cl" onclick="closeModal()">Cancel</button>
-      <button class="btn-g" style="flex:2" onclick="saveReply()">Save reply</button>
-    </div>
+    <div class="fg"><label>Vehicle type</label><select id="m-vt"><option>12 Wheeler</option><option>14 Wheeler</option><option>12 Wheeler &amp; 14 Wheeler</option></select></div>
+    <div class="fg"><label>Their reply</label><select id="m-st"><option value="yes">YES - accepted</option><option value="no">NO - declined</option></select></div>
+    <div class="mf"><button class="btn-cl" onclick="closeModal()">Cancel</button><button class="btn-g" style="flex:2" onclick="saveReply()">Save reply</button></div>
   </div>
 </div>
 
-<!-- ADD OWNER MODAL -->
+<!-- ADD / EDIT OWNER MODAL -->
 <div id="ob">
   <div id="od">
-    <div class="od-top">
-      <div class="mh"></div>
-      <div class="mt" id="add-own-title">Add owner</div>
-      <div class="fg"><label>Full name</label><input type="text" id="ow-nm" placeholder="e.g. Rajan M."></div>
-      <div class="fg"><label>Phone number</label><input type="tel" id="ow-ph" placeholder="919447012345 (with country code, no spaces)" inputmode="tel"></div>
-      <div class="fg"><label>Vehicle type</label>
-        <div style="display:flex;gap:10px;margin-top:4px">
-          <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;font-weight:400;color:var(--ink);text-transform:none;letter-spacing:0;font-family:var(--f)">
-            <input type="checkbox" id="ow-vt-12" value="12 Wheeler" style="width:18px;height:18px;accent-color:var(--gm);cursor:pointer"> 12 Wheeler
-          </label>
-          <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;font-weight:400;color:var(--ink);text-transform:none;letter-spacing:0;font-family:var(--f)">
-            <input type="checkbox" id="ow-vt-14" value="14 Wheeler" style="width:18px;height:18px;accent-color:var(--gm);cursor:pointer"> 14 Wheeler
-          </label>
-        </div>
+    <div class="mh"></div>
+    <div class="mt" id="add-own-title">Add owner</div>
+    <div class="fg"><label>Full name</label><input type="text" id="ow-nm" placeholder="e.g. Rajan M."></div>
+    <div class="fg"><label>Phone (with country code)</label><input type="tel" id="ow-ph" placeholder="919447012345" inputmode="tel"></div>
+    <div class="fg">
+      <label>Vehicle type owned</label>
+      <div class="vt-check">
+        <label><input type="checkbox" id="ow-vt-12" value="12 Wheeler"> 12 Wheeler</label>
+        <label><input type="checkbox" id="ow-vt-14" value="14 Wheeler"> 14 Wheeler</label>
       </div>
-      <div class="fg"><label>Area / District</label><input type="text" id="ow-ar" placeholder="e.g. Kozhikode North"></div>
-      <div class="mf">
-        <button class="btn-cl" onclick="closeOwnerModal()">Cancel</button>
-        <button class="btn-g" style="flex:2" onclick="saveOwner()">Save owner</button>
-      </div>
+      <div class="hint">Tick all types this owner can drive.</div>
     </div>
+    <div class="fg"><label>Area / District</label><input type="text" id="ow-ar" placeholder="e.g. Kozhikode North"></div>
+    <div class="mf"><button class="btn-cl" onclick="closeOwnerModal()">Cancel</button><button class="btn-g" style="flex:2" onclick="saveOwner()">Save owner</button></div>
+    <div style="height:env(safe-area-inset-bottom,0)"></div>
   </div>
 </div>
 
-<!-- OWNER PICKER (for compose) -->
-<div id="ob2" style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s">
-  <div id="od2" style="background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:430px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:80vh;display:flex;flex-direction:column">
+<!-- OWNER PICKER -->
+<div id="ob2">
+  <div id="od2">
     <div style="padding:16px 16px 0;flex-shrink:0">
       <div class="mh"></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div style="font-size:17px;font-weight:500">Select owners to message</div>
+        <div style="font-size:17px;font-weight:500">Select owners</div>
         <div style="font-size:13px;color:var(--gm);cursor:pointer;font-weight:500" onclick="selAllOwners()">Select all</div>
       </div>
     </div>
-    <div style="overflow-y:auto;padding:0 16px 16px;flex:1" id="picker-list"></div>
+    <div class="od-scroll" id="picker-list"></div>
     <div style="padding:12px 16px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0));border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0">
       <button class="btn-cl" onclick="closeOwnerPicker()" style="flex:1">Cancel</button>
       <button class="btn-g" style="flex:2" onclick="confirmOwnerPicker()">Confirm <span id="picker-count">0</span> owners</button>
@@ -415,16 +364,16 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
   </div>
 </div>
 
-<!-- INDIVIDUAL SEND MODAL -->
-<div id="send-modal-bg" style="position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s">
-  <div id="send-modal" style="background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:430px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:88vh;overflow-y:auto;padding:20px 20px 0">
-    <div style="width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 14px"></div>
+<!-- INDIVIDUAL SEND PANEL -->
+<div id="send-modal-bg">
+  <div id="send-modal">
+    <div class="mh"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
       <div style="font-size:17px;font-weight:500">Send to fleet owners</div>
-      <div style="font-size:12px;color:var(--gm);cursor:pointer;font-weight:500" onclick="closeSendModal()">Done</div>
+      <div style="font-size:13px;color:var(--gm);cursor:pointer;font-weight:500" onclick="closeSendModal()">Done</div>
     </div>
     <div id="send-modal-body"></div>
-    <div style="height:calc(16px + env(safe-area-inset-bottom,0px))"></div>
+    <div style="height:calc(20px + env(safe-area-inset-bottom,0))"></div>
   </div>
 </div>
 
@@ -432,8 +381,10 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 
 <script>
 var C={url:'',secret:'',name:'Manager'};
-try{var _s=localStorage.getItem('sb_v5');if(_s)C=Object.assign({},C,JSON.parse(_s));}catch(e){}
+try{var _s=localStorage.getItem('sb_v6');if(_s)C=Object.assign({},C,JSON.parse(_s));}catch(e){}
 var JOBS=[],OWNERS=[],ACTIVE=null,FLT='all',SELTYPES=new Set(['12 Wheeler']),JCODE='',SELOW=new Set();
+var EDIT_PHONE='';
+var SEND_JOB=null,SEND_LIST=[],SEND_IDX=0;
 var COLS=[['#E4F5ED','#1B4D3E'],['#FEF3C7','#92400E'],['#EDE9FE','#4C1D95'],['#E0F2FE','#0C4A6E'],['#DCFCE7','#14532D'],['#FFE4E6','#881337']];
 function col(i){return COLS[Math.abs(i||0)%COLS.length];}
 
@@ -463,7 +414,6 @@ function showV(v){
   var M={home:'nb-home',jobs:'nb-jobs',compose:'nb-compose',owners:'nb-owners'};
   if(M[v])document.getElementById(M[v]).classList.add('on');
 }
-
 function goNav(v){
   if(v==='compose'){genCode();upPrev();loadOwners();}
   if(v==='jobs')renderJobs();
@@ -471,11 +421,7 @@ function goNav(v){
   if(v==='home'){renderHome();loadJobs();}
   showV(v);
 }
-
-function goBack(){
-  if(CV==='detail')showV('jobs');
-  else showV('home');
-}
+function goBack(){if(CV==='detail')showV('jobs');else showV('home');}
 
 async function doSetup(){
   var url=document.getElementById('s-url').value.trim().replace(/\/+$/,'');
@@ -486,27 +432,23 @@ async function doSetup(){
   if(!sec){showRb('s-rb','Enter admin secret','er');return;}
   showRb('s-rb','Testing...','');syd('s');
   try{
-    var ctrl=new AbortController();
-    setTimeout(function(){ctrl.abort();},12000);
+    var ctrl=new AbortController();setTimeout(function(){ctrl.abort();},12000);
     var r=await fetch(url+'/ping',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}',signal:ctrl.signal});
-    if(r.status===403){showRb('s-rb','Wrong admin secret — check ADMIN_SECRET in Lambda environment variables','er');syd('er');return;}
-    if(!r.ok){showRb('s-rb','Server error '+r.status+'. Check Lambda deployment.','er');syd('er');return;}
+    if(r.status===403){showRb('s-rb','Wrong admin secret.','er');syd('er');return;}
+    if(!r.ok){showRb('s-rb','Server error '+r.status,'er');syd('er');return;}
     var d=await r.json();
     if(d.ok){
-      C={url:url,secret:sec,name:nm};
-      localStorage.setItem('sb_v5',JSON.stringify(C));
-      showRb('s-rb','Connected! Loading dashboard...','ok');syd('ok');
+      C={url:url,secret:sec,name:nm};localStorage.setItem('sb_v6',JSON.stringify(C));
+      showRb('s-rb','Connected! Loading...','ok');syd('ok');
       document.getElementById('gn').textContent=nm;
       setTimeout(function(){showV('home');loadAll();},900);
     }else{showRb('s-rb','Server error.','er');syd('er');}
   }catch(e){
-    if(e.name==='AbortError')showRb('s-rb','Timed out. Try again in 5 seconds.','er');
-    else if(e.message&&e.message.indexOf('Failed')>=0)showRb('s-rb','Network/CORS error. Go to Lambda > Configuration > Function URL > Edit > DISABLE CORS (uncheck it) > Save. Then try again.','er');
-    else showRb('s-rb','Error: '+e.message,'er');
+    if(e.name==='AbortError')showRb('s-rb','Timed out. Try again.','er');
+    else showRb('s-rb','Network error. Check Lambda CORS is DISABLED in Function URL settings.','er');
     syd('er');
   }
 }
-
 function showRb(id,msg,type){var e=document.getElementById(id);e.textContent=msg;e.className='rb'+(type?' '+type:'');e.style.display='block';}
 
 async function api(path,body){
@@ -518,74 +460,55 @@ async function api(path,body){
 }
 
 async function loadAll(){await loadJobs();await loadOwners();}
-async function loadJobs(){
-  var d=await api('/job/list');
-  if(d.ok){JOBS=d.jobs||[];renderHome();renderJobs();upStats();updateBadge();}
-}
-async function loadOwners(){
-  var d=await api('/owners/list');
-  if(d.ok){OWNERS=d.owners||[];renderOwners();updateBadge();}
-}
+async function loadJobs(){var d=await api('/job/list');if(d.ok){JOBS=d.jobs||[];renderHome();renderJobs();upStats();updateBadge();}}
+async function loadOwners(){var d=await api('/owners/list');if(d.ok){OWNERS=d.owners||[];renderOwners();updateBadge();}}
 
 function genCode(){JCODE='JOB-'+Math.random().toString(36).slice(2,6).toUpperCase();upPrev();}
 
-function toggleType(el,t){
-  if(t==='Any'){
-    document.querySelectorAll('#tchips .chip').forEach(function(c){c.classList.remove('on');});
-    el.classList.add('on');
-    SELTYPES=new Set(['12 Wheeler','14 Wheeler','Mini Truck','Pickup Van','Compactor','Tata Ace']);
-  }else{
-    document.querySelector('#tchips .chip:last-child').classList.remove('on');
-    el.classList.toggle('on');
-    if(el.classList.contains('on'))SELTYPES.add(t);else SELTYPES.delete(t);
-    if(SELTYPES.size>=4)document.querySelector('#tchips .chip:last-child').classList.add('on');
-  }
+function toggleType(el,type){
+  document.querySelectorAll('#tchips .chip').forEach(function(c){c.classList.remove('on');});
+  el.classList.add('on');
+  if(type==='Both')SELTYPES=new Set(['12 Wheeler','14 Wheeler']);
+  else SELTYPES=new Set([type]);
   SELOW=new Set();updateOwnerSel();upPrev();
 }
 
 function buildMsg(){
   var fr=document.getElementById('cf').value.trim();
   var to=document.getElementById('ct').value.trim();
-  var dt=document.getElementById('cd').value;
-  var tm=document.getElementById('ctm').value;
   var rt=document.getElementById('cr').value.trim();
+  if(!fr||!to||!rt)return null;
   var km=document.getElementById('ck').value.trim();
   var nt=document.getElementById('cn').value.trim();
-  var ty=Array.from(SELTYPES).join(', ')||'Any';
-  if(!fr||!to||!rt)return null;
+  var ty=Array.from(SELTYPES).join(' & ')||'Any';
   return [
-    'Job Available - Starbase Innovations',
-    '',
-    'From: '+fr,
-    'To: '+to,
-    'Date: '+dt+'  Time: '+tm,
+    'Job Available - Starbase Innovations','',
+    'From: '+fr,'To: '+to,
+    'Date: '+document.getElementById('cd').value,
+    'Time: '+document.getElementById('ctm').value,
     'Rate: Rs.'+rt+(km?' / '+km+' km':''),
     'Vehicle: '+ty,
-    nt?'Notes: '+nt:null,
-    '',
-    'Reply YES '+JCODE+' to accept',
-    'Reply NO '+JCODE+' to decline',
-    '',
-    'Ref: '+JCODE
+    nt?'Notes: '+nt:null,'',
+    'Reply YES '+JCODE+' to accept or NO '+JCODE+' to decline.',
+    '','Starbase Innovations Fleet Dispatch.','Ref: '+JCODE
   ].filter(function(l){return l!==null;}).join('\n');
 }
 
 function upPrev(){
   var msg=buildMsg();
   var el=document.getElementById('wprev');
-  if(!el)return;
-  el.innerHTML=msg?msg.replace(/\n/g,'<br>'):'Fill in trip details to preview';
-  var btn=document.getElementById('snd-btn');
-  if(btn){
-    var n=SELOW.size;
-    document.getElementById('snd-lbl').textContent=n>0?'Send to '+n+' owners individually':'Send to selected owners';
-  }
+  if(el)el.innerHTML=msg?msg.replace(/\n/g,'<br>'):'Fill in trip details to preview';
+  var n=SELOW.size;
+  document.getElementById('snd-lbl').textContent=n>0?'Send to '+n+' owners':'Send to selected owners';
 }
 
 function updateOwnerSel(){
   var n=SELOW.size;
   document.getElementById('own-sel-count').textContent=n+' selected';
-  document.getElementById('own-sel-text').textContent=n>0?Array.from(SELOW).slice(0,3).map(function(p){var o=OWNERS.find(function(x){return x.phone===p;});return o?o.name:p;}).join(', ')+(n>3?' +more':''):'Tap to select fleet owners';
+  if(n>0){
+    var names=Array.from(SELOW).slice(0,2).map(function(p){var o=OWNERS.find(function(x){return x.phone===p;});return o?o.name:p;});
+    document.getElementById('own-sel-text').textContent=names.join(', ')+(n>2?' +more':'');
+  }else{document.getElementById('own-sel-text').textContent='Tap to select fleet owners';}
   upPrev();
 }
 
@@ -596,167 +519,75 @@ async function doBroadcast(){
   if(!fr){toast('Enter pickup point');return;}
   if(!to){toast('Enter drop point');return;}
   if(!rt){toast('Enter rate');return;}
-  if(SELOW.size===0){toast('Select at least one owner to message');openOwnerPicker();return;}
+  if(SELOW.size===0){toast('Select at least one owner');openOwnerPicker();return;}
   var msg=buildMsg();
   var btn=document.getElementById('snd-btn');
-  btn.disabled=true;
-  document.getElementById('snd-lbl').textContent='Saving job...';
+  btn.disabled=true;document.getElementById('snd-lbl').textContent='Saving...';
   var phones=Array.from(SELOW);
-  var body={
-    from:fr,to:to,
-    date:document.getElementById('cd').value,
-    time:document.getElementById('ctm').value,
-    rate:rt,km:document.getElementById('ck').value,
-    notes:document.getElementById('cn').value,
-    vehicleTypes:Array.from(SELTYPES),
-    ownerPhones:phones
-  };
+  var body={from:fr,to:to,date:document.getElementById('cd').value,time:document.getElementById('ctm').value,rate:rt,km:document.getElementById('ck').value,notes:document.getElementById('cn').value,vehicleTypes:Array.from(SELTYPES),ownerPhones:phones};
   var d=await api('/job/create',body);
-  btn.disabled=false;
-  document.getElementById('snd-lbl').textContent='Send to selected owners';
+  btn.disabled=false;document.getElementById('snd-lbl').textContent='Send to selected owners';
   if(!d.ok){toast('Error saving job. Check connection.');return;}
-  var newJob={
-    jobId:d.jobId,code:d.code||JCODE,
-    from:fr,to:to,date:body.date,time:body.time,
-    rate:rt,km:body.km,vehicleTypes:Array.from(SELTYPES),
-    responses:{},assigned:null,status:'open',
-    createdAt:new Date().toISOString(),
-    sentTo:phones,
-    counts:{sent:phones.length,yes:0,no:0,pending:phones.length},
-    messageText:msg
-  };
-  JOBS.unshift(newJob);
-  upStats();renderHome();
+  var newJob={jobId:d.jobId,code:d.code||JCODE,from:fr,to:to,date:body.date,time:body.time,rate:rt,km:body.km,vehicleTypes:Array.from(SELTYPES),responses:{},assigned:null,status:'open',createdAt:new Date().toISOString(),sentTo:phones,counts:{sent:phones.length,yes:0,no:0,pending:phones.length},messageText:msg};
+  JOBS.unshift(newJob);upStats();renderHome();
   if(d.autoSent&&d.sent>0){
     SELOW=new Set();updateOwnerSel();genCode();
     toast('Auto-sent to '+d.sent+' owners via WhatsApp API.');
     setTimeout(function(){goNav('jobs');},600);
   }else{
-    // Individual wa.me send — open send panel
-    var ownerList=phones.map(function(ph){
-      var own=OWNERS.find(function(o){return o.phone===ph||o.phone.replace(/[^0-9]/g,'')===ph.replace(/[^0-9]/g,'');});
-      return{phone:ph,name:own?own.name:ph,sent:false};
-    });
-    SEND_JOB=newJob;
-    SEND_LIST=ownerList;
-    SEND_IDX=0;
+    var ownerList=phones.map(function(ph){var own=OWNERS.find(function(o){return o.phone===ph||o.phone.replace(/[^0-9]/g,'')===ph.replace(/[^0-9]/g,'');});return{phone:ph,name:own?own.name:ph,sent:false};});
+    SEND_JOB=newJob;SEND_LIST=ownerList;SEND_IDX=0;
     SELOW=new Set();updateOwnerSel();genCode();
     openSendPanel();
   }
 }
 
-var SEND_JOB=null,SEND_LIST=[],SEND_IDX=0;
-
-function openSendPanel(){
-  renderSendPanel();
-  var bg=document.getElementById('send-modal-bg');
-  bg.style.opacity='1';
-  bg.style.pointerEvents='all';
-  document.getElementById('send-modal').style.transform='translateY(0)';
-}
-
-function closeSendModal(){
-  var bg=document.getElementById('send-modal-bg');
-  bg.style.opacity='0';
-  bg.style.pointerEvents='none';
-  document.getElementById('send-modal').style.transform='translateY(100%)';
-  setTimeout(function(){goNav('jobs');toast('Broadcast complete. Check Jobs tab for responses.');},300);
-}
+function openSendPanel(){renderSendPanel();document.getElementById('send-modal-bg').style.cssText='opacity:1;pointer-events:all';document.getElementById('send-modal').style.transform='translateY(0)';}
+function closeSendModal(){document.getElementById('send-modal-bg').style.cssText='opacity:0;pointer-events:none';document.getElementById('send-modal').style.transform='translateY(100%)';setTimeout(function(){goNav('jobs');toast('Broadcast complete. Check Jobs for responses.');},300);}
 
 function renderSendPanel(){
-  var total=SEND_LIST.length;
-  var sent=SEND_LIST.filter(function(o){return o.sent;}).length;
-  var owner=SEND_LIST[SEND_IDX];
-  var pct=total?Math.round(sent/total*100):0;
-  var el=document.getElementById('send-modal-body');
-  var html='<div style="margin-bottom:14px">'
-    +'<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px">'
-    +'<span>Send individually to each owner</span><span>'+sent+' / '+total+'</span></div>'
-    +'<div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden">'
-    +'<div style="height:100%;background:var(--gl);border-radius:3px;width:'+pct+'%;transition:width .4s"></div>'
-    +'</div></div>';
+  var total=SEND_LIST.length,sent=SEND_LIST.filter(function(o){return o.sent;}).length;
+  var owner=SEND_LIST[SEND_IDX],pct=total?Math.round(sent/total*100):0;
+  var h='<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px"><span>Send individually</span><span>'+sent+' / '+total+'</span></div><div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;background:var(--gl);border-radius:3px;width:'+pct+'%;transition:width .4s"></div></div></div>';
   if(owner){
-    html+='<div style="background:var(--gp);border-radius:var(--r);padding:13px;margin-bottom:12px">'
-      +'<div style="font-size:10px;color:var(--gc);font-family:var(--m);margin-bottom:3px">NEXT TO SEND</div>'
-      +'<div style="font-size:16px;font-weight:500">'+owner.name+'</div>'
-      +'<div style="font-size:12px;color:var(--muted)">'+owner.phone+'</div>'
-      +'</div>'
-      +'<button class="btn-wa" onclick="sendToNext()" style="margin-bottom:8px">'
-      +'<svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.974 0C5.395 0 0 5.395 0 11.974c0 2.097.548 4.068 1.505 5.773L.057 23.5l5.896-1.547a11.9 11.9 0 0 0 6.021 1.625c6.579 0 11.974-5.395 11.974-11.974C23.948 5.395 18.553 0 11.974 0z"/></svg>'
-      +' Send to '+owner.name+' on WhatsApp</button>'
+    h+='<div style="background:var(--gp);border-radius:var(--r);padding:13px;margin-bottom:12px"><div style="font-size:10px;color:var(--gc);font-family:var(--m);margin-bottom:3px">NEXT TO SEND</div><div style="font-size:16px;font-weight:500">'+owner.name+'</div><div style="font-size:12px;color:var(--muted)">'+owner.phone+'</div></div>'
+      +'<button class="btn-wa" onclick="sendToNext()" style="margin-bottom:8px"><svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.974 0C5.395 0 0 5.395 0 11.974c0 2.097.548 4.068 1.505 5.773L.057 23.5l5.896-1.547a11.9 11.9 0 0 0 6.021 1.625c6.579 0 11.974-5.395 11.974-11.974C23.948 5.395 18.553 0 11.974 0z"/></svg> Send to '+owner.name+'</button>'
       +'<button onclick="skipOwner()" style="width:100%;background:var(--bg);color:var(--muted);border:1px solid var(--border);padding:10px;border-radius:var(--r);font-size:13px;cursor:pointer;font-family:var(--f)">Skip</button>';
   }else{
-    html+='<div style="text-align:center;padding:24px 0">'
-      +'<div style="font-size:36px;margin-bottom:8px">&#10003;</div>'
-      +'<div style="font-size:16px;font-weight:500;margin-bottom:4px">All messages sent!</div>'
-      +'<div style="font-size:13px;color:var(--muted)">Owners will reply YES or NO.<br>Check Jobs tab to see responses.</div>'
-      +'<button class="btn-g" style="margin-top:16px;width:100%" onclick="closeSendModal()">Go to Jobs</button>'
-      +'</div>';
+    h+='<div style="text-align:center;padding:24px 0"><div style="font-size:40px;margin-bottom:8px">&#10003;</div><div style="font-size:16px;font-weight:500;margin-bottom:4px">All messages sent!</div><div style="font-size:13px;color:var(--muted)">Owners will reply YES or NO.</div><button class="btn-g" style="margin-top:16px;width:100%" onclick="closeSendModal()">Go to Jobs</button></div>';
   }
-  html+='<div style="margin-top:14px;border-top:1px solid var(--border);padding-top:10px">'
-    +'<div style="font-size:10px;color:var(--muted);font-family:var(--m);margin-bottom:8px">ALL OWNERS ('+total+')</div>'
-    +SEND_LIST.map(function(o,i){
-      return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:13px">'
-        +'<div style="width:18px;height:18px;border-radius:50%;background:'+(o.sent?'var(--gl)':i===SEND_IDX?'var(--am)':'var(--border)')+';display:flex;align-items:center;justify-content:center;font-size:10px;color:white;flex-shrink:0">'
-        +(o.sent?'&#10003;':i===SEND_IDX?'&#8250;':'')+'</div>'
-        +'<span style="flex:1">'+(o.name||o.phone)+'</span>'
-        +'<span style="font-size:11px;color:'+(o.sent?'var(--gm)':i===SEND_IDX?'var(--am)':'var(--muted)')+'">'+( o.sent?'Sent':i===SEND_IDX?'Next':'Waiting')+'</span>'
-        +'</div>';
-    }).join('')+'</div>';
-  el.innerHTML=html;
+  h+='<div style="margin-top:14px;border-top:1px solid var(--border);padding-top:10px"><div style="font-size:10px;color:var(--muted);font-family:var(--m);margin-bottom:8px">ALL OWNERS ('+total+')</div>'
+    +SEND_LIST.map(function(o,i){return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--border);font-size:13px"><div style="width:18px;height:18px;border-radius:50%;background:'+(o.sent?'var(--gl)':i===SEND_IDX?'var(--am)':'var(--border)')+';display:flex;align-items:center;justify-content:center;font-size:10px;color:white;flex-shrink:0">'+(o.sent?'&#10003;':i===SEND_IDX?'&#8250;':'')+'</div><span style="flex:1">'+(o.name||o.phone)+'</span><span style="font-size:11px;color:'+(o.sent?'var(--gm)':i===SEND_IDX?'var(--am)':'var(--muted)')+'">'+( o.sent?'Sent':i===SEND_IDX?'Next':'Waiting')+'</span></div>';}).join('')+'</div>';
+  document.getElementById('send-modal-body').innerHTML=h;
 }
 
 function sendToNext(){
-  var owner=SEND_LIST[SEND_IDX];
-  if(!owner)return;
+  var owner=SEND_LIST[SEND_IDX];if(!owner)return;
   var msg=SEND_JOB?SEND_JOB.messageText||'':'';
-  var ph=owner.phone.replace(/[^0-9]/g,'');
-  if(!ph.startsWith('91'))ph='91'+ph;
-  var link='https://wa.me/'+ph+'?text='+encodeURIComponent(msg);
-  window.open(link,'_blank');
-  setTimeout(function(){
-    SEND_LIST[SEND_IDX].sent=true;
-    SEND_IDX++;
-    renderSendPanel();
-  },1200);
+  var ph=owner.phone.replace(/[^0-9]/g,'');if(!ph.startsWith('91'))ph='91'+ph;
+  window.open('https://wa.me/'+ph+'?text='+encodeURIComponent(msg),'_blank');
+  setTimeout(function(){SEND_LIST[SEND_IDX].sent=true;SEND_IDX++;renderSendPanel();},1200);
 }
-
-function skipOwner(){
-  SEND_IDX++;
-  if(SEND_IDX>=SEND_LIST.length){closeSendModal();}
-  else{renderSendPanel();}
-}
+function skipOwner(){SEND_IDX++;if(SEND_IDX>=SEND_LIST.length)closeSendModal();else renderSendPanel();}
 
 function jcHTML(j){
-  var c=j.counts||{sent:0,yes:0,no:0,pending:0};
-  var tot=Math.max(c.sent||c.yes+c.no+c.pending,1);
-  return '<div class="jcard" onclick="openDetail(\''+j.jobId+'\')">'
-    +(j.assigned?'<span class="asgn">Assigned</span>':'')
-    +'<div class="jr1"><div class="jr">'+((j.from||'').split(',')[0])+' to '+((j.to||'').split(',')[0])+'</div>'
-    +'<div class="jco">'+(j.code||'')+'</div></div>'
-    +'<div class="jm">Rs.'+j.rate+(j.km?' / '+j.km+' km':'')+' - '+(j.vehicleTypes||[]).join(', ')+'</div>'
-    +'<div class="jp">'
-    +'<div class="jpw"><div class="jpb by" style="width:'+Math.round(c.yes/tot*100)+'%"></div></div>'
-    +'<div class="jpw"><div class="jpb bn" style="width:'+Math.round(c.no/tot*100)+'%"></div></div>'
-    +'<div class="jpw"><div class="jpb bp" style="width:'+Math.round(c.pending/tot*100)+'%"></div></div>'
-    +'</div>'
-    +'<div class="jcnt"><span class="cy">YES '+c.yes+'</span><span class="cn">NO '+c.no+'</span><span class="cp">Pending '+c.pending+'</span></div>'
-    +'</div>';
+  var c=j.counts||{sent:0,yes:0,no:0,pending:0};var tot=Math.max(c.sent||c.yes+c.no+c.pending,1);
+  return '<div class="jcard" onclick="openDetail(\''+j.jobId+'\')">'+( j.assigned?'<span class="asgn">Assigned</span>':'')
+    +'<div class="jr1"><div class="jr">'+((j.from||'').split(',')[0])+' to '+((j.to||'').split(',')[0])+'</div><div class="jco">'+(j.code||'')+'</div></div>'
+    +'<div class="jm">Rs.'+j.rate+(j.km?' / '+j.km+' km':'')+' - '+(j.vehicleTypes||[]).join(' & ')+'</div>'
+    +'<div class="jp"><div class="jpw"><div class="jpb by" style="width:'+Math.round(c.yes/tot*100)+'%"></div></div><div class="jpw"><div class="jpb bn" style="width:'+Math.round(c.no/tot*100)+'%"></div></div><div class="jpw"><div class="jpb bp" style="width:'+Math.round(c.pending/tot*100)+'%"></div></div></div>'
+    +'<div class="jcnt"><span class="cy">YES '+c.yes+'</span><span class="cn">NO '+c.no+'</span><span class="cp">Pending '+c.pending+'</span></div></div>';
 }
 
 function renderHome(){
   var today=new Date().toISOString().slice(0,10);
   var tj=JOBS.filter(function(j){return(j.createdAt||'').slice(0,10)===today;});
-  var el=document.getElementById('home-jc');
-  el.innerHTML=tj.length?tj.slice(0,4).map(jcHTML).join(''):'<div class="empty">No jobs today.<br>Tap New Job below.</div>';
+  document.getElementById('home-jc').innerHTML=tj.length?tj.slice(0,4).map(jcHTML).join(''):'<div class="empty">No jobs today.<br>Tap New Job below.</div>';
 }
-
 function renderJobs(){
   document.getElementById('jcnt-lbl').textContent=JOBS.length+' job'+(JOBS.length!==1?'s':'');
-  var el=document.getElementById('all-jc');
-  el.innerHTML=JOBS.length?JOBS.map(jcHTML).join(''):'<div class="empty">No jobs yet.</div>';
+  document.getElementById('all-jc').innerHTML=JOBS.length?JOBS.map(jcHTML).join(''):'<div class="empty">No jobs yet.</div>';
 }
-
 function upStats(){
   var today=new Date().toISOString().slice(0,10);
   var tj=JOBS.filter(function(j){return(j.createdAt||'').slice(0,10)===today;});
@@ -768,7 +599,6 @@ function upStats(){
 }
 
 function getJ(){return JOBS.find(function(j){return j.jobId===ACTIVE;});}
-
 function openDetail(id){ACTIVE=id;renderDetail();showV('detail');}
 
 function renderDetail(){
@@ -778,48 +608,32 @@ function renderDetail(){
     '<div class="ir"><span class="irl">Route</span><span class="irv">'+j.from+' to '+j.to+'</span></div>'
     +'<div class="ir"><span class="irl">Date / Time</span><span class="irv">'+j.date+' - '+j.time+'</span></div>'
     +'<div class="ir"><span class="irl">Rate</span><span class="irv">Rs.'+j.rate+(j.km?' / '+j.km+' km':'')+'</span></div>'
-    +'<div class="ir"><span class="irl">Vehicle</span><span class="irv">'+((j.vehicleTypes||[]).join(', ')||'Any')+'</span></div>'
+    +'<div class="ir"><span class="irl">Vehicle</span><span class="irv">'+((j.vehicleTypes||[]).join(' & ')||'Any')+'</span></div>'
     +'<div class="ir"><span class="irl">Sent to</span><span class="irv">'+((j.sentTo||[]).length)+' owners</span></div>'
-    +'<div class="ir"><span class="irl">Job code</span><span class="irv irc">'+j.code+'</span></div>'
+    +'<div class="ir"><span class="irl">Job code</span><span class="irv" style="font-family:var(--m)">'+j.code+'</span></div>'
     +(j.assigned?'<div class="ir"><span class="irl">Assigned</span><span class="irv" style="color:var(--gm)">'+j.assigned+'</span></div>':'');
   renderResps();
 }
-
-function doResend(){
-  var j=getJ();if(!j)return;
-  var msg=j.messageText||buildMsg()||'';
-  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
-}
+function doResend(){var j=getJ();if(!j)return;window.open('https://wa.me/?text='+encodeURIComponent(j.messageText||''),'_blank');}
 
 function renderResps(){
   var j=getJ();if(!j)return;
   var all=Object.entries(j.responses||{});
-
-  // Also show sent-but-not-replied owners as pending rows
-  var replied=new Set(Object.values(j.responses||{}).map(function(r){return(r.phone||'').replace(/\D/g,'');}));
+  var replied=new Set(Object.values(j.responses||{}).map(function(r){return(r.phone||'').replace(/[^0-9]/g,'');}));
   var pending=[];
   (j.sentTo||[]).forEach(function(ph){
-    var clean=ph.replace(/\D/g,'');
-    if(!replied.has(clean)){
-      var own=OWNERS.find(function(o){return o.phone===clean||o.phone===ph;});
-      pending.push([clean,{status:'pending',name:own?own.name:ph,phone:ph,vehicle:own?own.vehicleType:'',t:null}]);
-    }
+    var clean=ph.replace(/[^0-9]/g,'');
+    if(!replied.has(clean)){var own=OWNERS.find(function(o){return o.phone===clean||o.phone===ph;});pending.push([clean,{status:'pending',name:own?own.name:ph,phone:ph,vehicle:own?own.vehicleType:'',t:null}]);}
   });
-
   var combined=FLT==='all'?all.concat(pending):FLT==='pending'?pending:all.filter(function(e){return e[1].status===FLT;});
   var el=document.getElementById('rlist');
   if(!combined.length){el.innerHTML='<div class="empty" style="padding:16px 0">No responses in this filter</div>';return;}
   el.innerHTML=combined.map(function(entry,i){
-    var r=entry[1];
-    var c=col(i);var bg=c[0],tc=c[1];
+    var r=entry[1];var c=col(i);var isY=r.status==='yes',isN=r.status==='no';
     var init=(r.name||'?').split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase();
-    var isY=r.status==='yes',isN=r.status==='no',isP=r.status==='pending';
     var tm=r.t?new Date(r.t).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}):'';
-    var sk=(r.phone||entry[0]).replace(/\D/g,'');
-    var sn=(r.name||'').replace(/'/g,"\\'");
-    var sp=(r.phone||'').replace(/'/g,"\\'");
-    return '<div class="rrow">'
-      +'<div class="rav" style="background:'+bg+';color:'+tc+'">'+init+'</div>'
+    var sk=(r.phone||entry[0]).replace(/[^0-9]/g,'');var sn=(r.name||'').replace(/'/g,"\\'");var sp=(r.phone||'').replace(/'/g,"\\'");
+    return '<div class="rrow"><div class="rav" style="background:'+c[0]+';color:'+c[1]+'">'+init+'</div>'
       +'<div class="rn"><div class="rname">'+(r.name||'Unknown')+'</div><div class="rveh">'+(r.vehicle||r.phone||'')+'</div></div>'
       +'<span class="rbadge '+(isY?'by2':isN?'bn2':'bp2')+'">'+(isY?'YES':isN?'NO':'Waiting')+'</span>'
       +(tm?'<span class="rtm">'+tm+'</span>':'')
@@ -828,58 +642,37 @@ function renderResps(){
   }).join('');
 }
 
-function setFlt(f,btn){
-  FLT=f;
-  document.querySelectorAll('#d-flt .rf').forEach(function(b){b.classList.remove('on');});
-  btn.classList.add('on');
-  renderResps();
-}
+function setFlt(f,btn){FLT=f;document.querySelectorAll('#d-flt .rf').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');renderResps();}
 
 async function doAssign(key,name,phone){
   var j=getJ();if(!j)return;
   var d=await api('/job/assign',{jobId:j.jobId,ownerName:name,ownerPhone:phone});
-  if(d.ok){
-    j.assigned=name;j.status='assigned';
-    renderDetail();renderJobs();renderHome();
-    toast('Assigned to '+name+'. Confirmation sent via WhatsApp.');
-  }else toast('Error assigning');
+  if(d.ok){j.assigned=name;j.status='assigned';renderDetail();renderJobs();renderHome();toast('Assigned to '+name);}
+  else toast('Error assigning');
 }
 
-// OWNERS
 function renderOwners(){
   var el=document.getElementById('own-list');
   document.getElementById('own-count').textContent=OWNERS.length;
   updateBadge();
   if(!OWNERS.length){el.innerHTML='<div class="empty">No owners yet. Add owners above.</div>';return;}
   el.innerHTML=OWNERS.map(function(o,i){
-    var c=col(i);
-    var init=(o.name||'?').split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase();
-    var safePhone=(o.phone||'').replace(/'/g,"\'");
-    var safeName=(o.name||'').replace(/'/g,"\'");
-    var safeVt=(o.vehicleType||'').replace(/'/g,"\'");
-    var safeArea=(o.area||'').replace(/'/g,"\'");
+    var c=col(i);var init=(o.name||'?').split(' ').map(function(x){return x[0];}).join('').slice(0,2).toUpperCase();
+    var sp=(o.phone||'').replace(/'/g,"\\'");var sn=(o.name||'').replace(/'/g,"\\'");
+    var sv=(o.vehicleType||'').replace(/'/g,"\\'");var sa=(o.area||'').replace(/'/g,"\\'");
     return '<div class="own-row">'
       +'<div class="own-av" style="background:'+c[0]+';color:'+c[1]+'">'+init+'</div>'
-      +'<div class="own-info">'
-      +'<div class="own-name">'+(o.name||'Unknown')+'</div>'
+      +'<div class="own-info"><div class="own-name">'+(o.name||'Unknown')+'</div>'
       +'<div class="own-meta">'+(o.vehicleType||'')+(o.area?' · '+o.area:'')+'</div>'
-      +'<div class="own-meta">'+o.phone+'</div>'
-      +'</div>'
+      +'<div class="own-meta">'+o.phone+'</div></div>'
       +'<div class="own-actions">'
-      +'<button class="own-edit" onclick="editOwner(''+safePhone+'',''+safeName+'',''+safeVt+'',''+safeArea+'')">Edit</button>'
-      +'<button class="own-del" onclick="deleteOwner(''+safePhone+'',''+safeName+'')">Delete</button>'
-      +'</div>'
-      +'</div>';
+      +'<button class="own-edit" onclick="editOwner(\''+sp+'\',\''+sn+'\',\''+sv+'\',\''+sa+'\')">Edit</button>'
+      +'<button class="own-del" onclick="deleteOwner(\''+sp+'\',\''+sn+'\')">Delete</button>'
+      +'</div></div>';
   }).join('');
 }
 
-function updateBadge(){
-  var n=OWNERS.length;
-  var b=document.getElementById('bdg');
-  if(n>0){b.style.display='inline';b.textContent=n;}else b.style.display='none';
-}
-
-var EDIT_PHONE='';
+function updateBadge(){var n=OWNERS.length;var b=document.getElementById('bdg');if(n>0){b.style.display='inline';b.textContent=n;}else b.style.display='none';}
 
 function openAddOwner(){
   EDIT_PHONE='';
@@ -908,25 +701,24 @@ function editOwner(phone,name,vt,area){
 }
 
 async function deleteOwner(phone,name){
-  if(!confirm('Delete '+name+'? This cannot be undone.')){return;}
+  if(!confirm('Delete '+name+'?\nThis cannot be undone.')){return;}
   var d=await api('/owners/delete',{phone:phone});
-  if(d.ok){
-    OWNERS=OWNERS.filter(function(o){return o.phone!==phone;});
-    renderOwners();
-    toast(name+' deleted');
-  }else{
-    toast('Error deleting owner');
-  }
+  if(d.ok){OWNERS=OWNERS.filter(function(o){return o.phone!==phone;});renderOwners();toast(name+' deleted');}
+  else toast('Error deleting. Try again.');
 }
+
 function closeOwnerModal(){document.getElementById('ob').classList.remove('on');}
 
 async function saveOwner(){
   var nm=document.getElementById('ow-nm').value.trim();
-  var ph=document.getElementById('ow-ph').value.trim().replace(/\D/g,'');
-  var vt=document.getElementById('ow-vt').value;
+  var ph=EDIT_PHONE||document.getElementById('ow-ph').value.trim().replace(/[^0-9]/g,'');
+  var vts=[];
+  if(document.getElementById('ow-vt-12').checked)vts.push('12 Wheeler');
+  if(document.getElementById('ow-vt-14').checked)vts.push('14 Wheeler');
+  var vt=vts.join(' & ')||'';
   var ar=document.getElementById('ow-ar').value.trim();
   if(!nm){toast('Enter owner name');return;}
-  if(!ph||ph.length<10){toast('Enter valid phone number with country code');return;}
+  if(!ph||ph.length<10){toast('Enter valid phone number with country code e.g. 919447012345');return;}
   if(!vt){toast('Select at least one vehicle type');return;}
   var d=await api('/owners/save',{owners:[{phone:ph,name:nm,vehicleType:vt,area:ar,active:true}]});
   if(d.ok){
@@ -934,8 +726,7 @@ async function saveOwner(){
     if(idx>=0)OWNERS[idx]={phone:ph,name:nm,vehicleType:vt,area:ar,active:true};
     else OWNERS.push({phone:ph,name:nm,vehicleType:vt,area:ar,active:true});
     closeOwnerModal();renderOwners();
-    toast(nm+(EDIT_PHONE?' updated':' added')+ ' successfully');
-    EDIT_PHONE='';
+    toast(nm+(EDIT_PHONE?' updated':' added')+' successfully');EDIT_PHONE='';
   }else toast('Error saving. Check connection.');
 }
 
@@ -945,75 +736,50 @@ async function doImport(){
   var lines=raw.split('\n').filter(function(l){return l.trim();});
   var owners=lines.map(function(line){
     var parts=line.split(',').map(function(s){return s.trim();});
-    return{phone:(parts[0]||'').replace(/\D/g,''),name:parts[1]||'',vehicleType:parts[2]||'Mini Truck',area:parts[3]||'',active:true};
+    return{phone:(parts[0]||'').replace(/[^0-9]/g,''),name:parts[1]||'',vehicleType:parts[2]||'12 Wheeler',area:parts[3]||'',active:true};
   }).filter(function(o){return o.phone.length>=10;});
-  if(!owners.length){showRb('import-rb','No valid phone numbers found. Format: 919447012345, Name, Vehicle, Area','er');return;}
+  if(!owners.length){showRb('import-rb','No valid phone numbers found. Format: 919447012345, Name, 12 Wheeler, Area','er');return;}
   showRb('import-rb','Importing '+owners.length+' owners...','');
   var d=await api('/owners/save',{owners:owners});
-  if(d.ok){
-    document.getElementById('import-txt').value='';
-    showRb('import-rb','Imported '+d.saved+' owners successfully','ok');
-    loadOwners();
-  }else showRb('import-rb','Import failed: '+d.error,'er');
+  if(d.ok){document.getElementById('import-txt').value='';showRb('import-rb','Imported '+d.saved+' owners successfully','ok');loadOwners();}
+  else showRb('import-rb','Import failed: '+d.error,'er');
 }
 
-// OWNER PICKER in compose
 function openOwnerPicker(){
   var filtered=OWNERS.filter(function(o){
-    if(o.active===false) return false;
-    // Check if owner's vehicle types overlap with selected types
+    if(o.active===false)return false;
     var ownerTypes=(o.vehicleType||'').split(/[,&]/).map(function(t){return t.trim();});
-    return Array.from(SELTYPES).some(function(st){
-      return ownerTypes.some(function(ot){return ot===st;});
-    });
+    return Array.from(SELTYPES).some(function(st){return ownerTypes.some(function(ot){return ot===st;});});
   });
   var el=document.getElementById('picker-list');
-  if(!filtered.length){
-    el.innerHTML='<div class="empty">No owners match this vehicle type.<br>Add owners in the Owners tab first.</div>';
-  }else{
+  if(!filtered.length){el.innerHTML='<div class="empty">No owners match this vehicle type.<br>Add owners in the Owners tab first.</div>';}
+  else{
     el.innerHTML=filtered.map(function(o){
       var on=SELOW.has(o.phone);
-      return '<div class="od-sel-row" onclick="toggleOwnerSel(\''+o.phone+'\')" id="prow-'+o.phone.replace(/\D/g,'')+'">'
-        +'<div class="od-check'+(on?' on':'')+'">'+( on?'&#10003;':'')+'</div>'
+      return '<div class="od-row" onclick="toggleOwnerSel(\''+o.phone+'\')" id="prow-'+o.phone.replace(/[^0-9]/g,'')+'">'
+        +'<div class="od-ck'+(on?' on':'')+'">'+( on?'&#10003;':'')+'</div>'
         +'<div class="od-n"><div class="od-name">'+(o.name||o.phone)+'</div><div class="od-meta">'+(o.vehicleType||'')+' - '+(o.area||o.phone)+'</div></div>'
         +'</div>';
     }).join('');
   }
   document.getElementById('picker-count').textContent=SELOW.size;
-  document.getElementById('ob2').style.opacity='1';
-  document.getElementById('ob2').style.pointerEvents='all';
-  document.getElementById('od2').style.transform='translateY(0)';
+  document.getElementById('ob2').classList.add('on');
 }
-
-function closeOwnerPicker(){
-  document.getElementById('ob2').style.opacity='0';
-  document.getElementById('ob2').style.pointerEvents='none';
-  document.getElementById('od2').style.transform='translateY(100%)';
-}
-
+function closeOwnerPicker(){document.getElementById('ob2').classList.remove('on');}
 function toggleOwnerSel(ph){
   if(SELOW.has(ph))SELOW.delete(ph);else SELOW.add(ph);
-  var row=document.getElementById('prow-'+ph.replace(/\D/g,''));
-  if(row){
-    var ck=row.querySelector('.od-check');
-    ck.className='od-check'+(SELOW.has(ph)?' on':'');
-    ck.innerHTML=SELOW.has(ph)?'&#10003;':'';
-  }
+  var row=document.getElementById('prow-'+ph.replace(/[^0-9]/g,''));
+  if(row){var ck=row.querySelector('.od-ck');ck.className='od-ck'+(SELOW.has(ph)?' on':'');ck.innerHTML=SELOW.has(ph)?'&#10003;':'';}
   document.getElementById('picker-count').textContent=SELOW.size;
 }
-
 function selAllOwners(){
-  var filtered=OWNERS.filter(function(o){return o.active!==false&&(SELTYPES.size===4||SELTYPES.has(o.vehicleType));});
+  var filtered=OWNERS.filter(function(o){if(o.active===false)return false;var ownerTypes=(o.vehicleType||'').split(/[,&]/).map(function(t){return t.trim();});return Array.from(SELTYPES).some(function(st){return ownerTypes.some(function(ot){return ot===st;});});});
   var allSel=filtered.every(function(o){return SELOW.has(o.phone);});
-  if(allSel){SELOW=new Set();}else{filtered.forEach(function(o){SELOW.add(o.phone);});}
+  if(allSel)SELOW=new Set();else filtered.forEach(function(o){SELOW.add(o.phone);});
   openOwnerPicker();
 }
+function confirmOwnerPicker(){closeOwnerPicker();updateOwnerSel();}
 
-function confirmOwnerPicker(){
-  closeOwnerPicker();updateOwnerSel();upPrev();
-}
-
-// REPLY MODAL
 function openModal(){document.getElementById('mb').classList.add('on');setTimeout(function(){document.getElementById('m-nm').focus();},300);}
 function closeModal(){document.getElementById('mb').classList.remove('on');}
 
@@ -1039,16 +805,9 @@ async function saveReply(){
   }else toast('Error saving. Check connection.');
 }
 
-function syd(s){
-  var d=document.getElementById('sy');d.className=s;
-  if(s==='ok')setTimeout(function(){d.className='';},3000);
-}
-
+function syd(s){var d=document.getElementById('sy');d.className=s;if(s==='ok')setTimeout(function(){d.className='';},3000);}
 var TT;
-function toast(msg){
-  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');
-  clearTimeout(TT);TT=setTimeout(function(){t.classList.remove('on');},3200);
-}
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');clearTimeout(TT);TT=setTimeout(function(){t.classList.remove('on');},3200);}
 
 document.getElementById('mb').addEventListener('click',function(e){if(e.target===document.getElementById('mb'))closeModal();});
 document.getElementById('ob').addEventListener('click',function(e){if(e.target===document.getElementById('ob'))closeOwnerModal();});
