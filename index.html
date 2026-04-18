@@ -245,11 +245,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
         <div class="card">
           <div class="ch">Vehicle type needed</div>
           <div class="chips" id="tchips">
-            <div class="chip on" onclick="toggleType(this,'Mini Truck')">Mini Truck</div>
-            <div class="chip" onclick="toggleType(this,'Pickup Van')">Pickup Van</div>
-            <div class="chip" onclick="toggleType(this,'Compactor')">Compactor</div>
-            <div class="chip" onclick="toggleType(this,'Tata Ace')">Tata Ace</div>
-            <div class="chip" onclick="toggleType(this,'Any')">Any vehicle</div>
+            <div class="chip on" onclick="toggleType(this,'12 Wheeler')">12 Wheeler</div>
+            <div class="chip" onclick="toggleType(this,'14 Wheeler')">14 Wheeler</div>
+            <div class="chip" onclick="toggleType(this,'Both')">Both</div>
           </div>
         </div>
         <div class="card">
@@ -378,7 +376,14 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
       <div class="fg"><label>Full name</label><input type="text" id="ow-nm" placeholder="e.g. Rajan M."></div>
       <div class="fg"><label>Phone number</label><input type="tel" id="ow-ph" placeholder="919447012345 (with country code, no spaces)" inputmode="tel"></div>
       <div class="fg"><label>Vehicle type</label>
-        <select id="ow-vt"><option>Mini Truck</option><option>Pickup Van</option><option>Compactor</option><option>Tata Ace</option></select>
+        <div style="display:flex;gap:10px;margin-top:4px">
+          <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;font-weight:400;color:var(--ink);text-transform:none;letter-spacing:0;font-family:var(--f)">
+            <input type="checkbox" id="ow-vt-12" value="12 Wheeler" style="width:18px;height:18px;accent-color:var(--gm);cursor:pointer"> 12 Wheeler
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;font-weight:400;color:var(--ink);text-transform:none;letter-spacing:0;font-family:var(--f)">
+            <input type="checkbox" id="ow-vt-14" value="14 Wheeler" style="width:18px;height:18px;accent-color:var(--gm);cursor:pointer"> 14 Wheeler
+          </label>
+        </div>
       </div>
       <div class="fg"><label>Area / District</label><input type="text" id="ow-ar" placeholder="e.g. Kozhikode North"></div>
       <div class="mf">
@@ -425,7 +430,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--f);background:var(--bg);
 <script>
 var C={url:'',secret:'',name:'Manager'};
 try{var _s=localStorage.getItem('sb_v5');if(_s)C=Object.assign({},C,JSON.parse(_s));}catch(e){}
-var JOBS=[],OWNERS=[],ACTIVE=null,FLT='all',SELTYPES=new Set(['Mini Truck']),JCODE='',SELOW=new Set();
+var JOBS=[],OWNERS=[],ACTIVE=null,FLT='all',SELTYPES=new Set(['12 Wheeler']),JCODE='',SELOW=new Set();
 var COLS=[['#E4F5ED','#1B4D3E'],['#FEF3C7','#92400E'],['#EDE9FE','#4C1D95'],['#E0F2FE','#0C4A6E'],['#DCFCE7','#14532D'],['#FFE4E6','#881337']];
 function col(i){return COLS[Math.abs(i||0)%COLS.length];}
 
@@ -525,12 +530,12 @@ function toggleType(el,t){
   if(t==='Any'){
     document.querySelectorAll('#tchips .chip').forEach(function(c){c.classList.remove('on');});
     el.classList.add('on');
-    SELTYPES=new Set(['Mini Truck','Pickup Van','Compactor','Tata Ace']);
+    SELTYPES=new Set(['12 Wheeler','14 Wheeler','Mini Truck','Pickup Van','Compactor','Tata Ace']);
   }else{
     document.querySelector('#tchips .chip:last-child').classList.remove('on');
     el.classList.toggle('on');
     if(el.classList.contains('on'))SELTYPES.add(t);else SELTYPES.delete(t);
-    if(SELTYPES.size===4)document.querySelector('#tchips .chip:last-child').classList.add('on');
+    if(SELTYPES.size>=4)document.querySelector('#tchips .chip:last-child').classList.add('on');
   }
   SELOW=new Set();updateOwnerSel();upPrev();
 }
@@ -864,6 +869,8 @@ function openAddOwner(){
   document.getElementById('ow-nm').value='';
   document.getElementById('ow-ph').value='';
   document.getElementById('ow-ar').value='';
+  document.getElementById('ow-vt-12').checked=false;
+  document.getElementById('ow-vt-14').checked=false;
   document.getElementById('ob').classList.add('on');
   setTimeout(function(){document.getElementById('ow-nm').focus();},300);
 }
@@ -876,6 +883,7 @@ async function saveOwner(){
   var ar=document.getElementById('ow-ar').value.trim();
   if(!nm){toast('Enter owner name');return;}
   if(!ph||ph.length<10){toast('Enter valid phone number with country code');return;}
+  if(!vt){toast('Select at least one vehicle type');return;}
   var d=await api('/owners/save',{owners:[{phone:ph,name:nm,vehicleType:vt,area:ar,active:true}]});
   if(d.ok){
     // Update local
@@ -908,7 +916,12 @@ async function doImport(){
 // OWNER PICKER in compose
 function openOwnerPicker(){
   var filtered=OWNERS.filter(function(o){
-    return o.active!==false&&(SELTYPES.has('Any')||SELTYPES.has(o.vehicleType)||SELTYPES.size===4);
+    if(o.active===false) return false;
+    // Check if owner's vehicle types overlap with selected types
+    var ownerTypes=(o.vehicleType||'').split(/[,&]/).map(function(t){return t.trim();});
+    return Array.from(SELTYPES).some(function(st){
+      return ownerTypes.some(function(ot){return ot===st;});
+    });
   });
   var el=document.getElementById('picker-list');
   if(!filtered.length){
