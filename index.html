@@ -551,7 +551,8 @@ function renderSendPanel(){
   var h='<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px"><span>Send individually</span><span>'+sent+' / '+total+'</span></div><div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:100%;background:var(--gl);border-radius:3px;width:'+pct+'%;transition:width .4s"></div></div></div>';
   if(owner){
     h+='<div style="background:var(--gp);border-radius:var(--r);padding:13px;margin-bottom:12px"><div style="font-size:10px;color:var(--gc);font-family:var(--m);margin-bottom:3px">NEXT TO SEND</div><div style="font-size:16px;font-weight:500">'+owner.name+'</div><div style="font-size:12px;color:var(--muted)">'+owner.phone+'</div></div>'
-      +'<button class="btn-wa" onclick="sendToNext()" style="margin-bottom:8px"><svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.974 0C5.395 0 0 5.395 0 11.974c0 2.097.548 4.068 1.505 5.773L.057 23.5l5.896-1.547a11.9 11.9 0 0 0 6.021 1.625c6.579 0 11.974-5.395 11.974-11.974C23.948 5.395 18.553 0 11.974 0z"/></svg> Send to '+owner.name+'</button>'
+      +'<button class="btn-wa" onclick="sendToNext()" style="margin-bottom:8px" id="wa-send-btn"><svg class="wa-ic" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.974 0C5.395 0 0 5.395 0 11.974c0 2.097.548 4.068 1.505 5.773L.057 23.5l5.896-1.547a11.9 11.9 0 0 0 6.021 1.625c6.579 0 11.974-5.395 11.974-11.974C23.948 5.395 18.553 0 11.974 0z"/></svg> Send to '+owner.name+'</button>'
+      +'<a href="javascript:sendToNext()" id="wa-direct-link" style="display:block;text-align:center;color:var(--gm);font-size:12px;margin-bottom:8px;text-decoration:underline">If WhatsApp did not open, tap here</a>'
       +'<button onclick="skipOwner()" style="width:100%;background:var(--bg);color:var(--muted);border:1px solid var(--border);padding:10px;border-radius:var(--r);font-size:13px;cursor:pointer;font-family:var(--f)">Skip</button>';
   }else{
     h+='<div style="text-align:center;padding:24px 0"><div style="font-size:40px;margin-bottom:8px">&#10003;</div><div style="font-size:16px;font-weight:500;margin-bottom:4px">All messages sent!</div><div style="font-size:13px;color:var(--muted)">Owners will reply YES or NO.</div><button class="btn-g" style="margin-top:16px;width:100%" onclick="closeSendModal()">Go to Jobs</button></div>';
@@ -565,8 +566,13 @@ function sendToNext(){
   var owner=SEND_LIST[SEND_IDX];if(!owner)return;
   var msg=SEND_JOB?SEND_JOB.messageText||'':'';
   var ph=owner.phone.replace(/[^0-9]/g,'');if(!ph.startsWith('91'))ph='91'+ph;
-  window.open('https://wa.me/'+ph+'?text='+encodeURIComponent(msg),'_blank');
-  setTimeout(function(){SEND_LIST[SEND_IDX].sent=true;SEND_IDX++;renderSendPanel();},1200);
+  var link='https://wa.me/'+ph+'?text='+encodeURIComponent(msg);
+  // Mark sent first, then open WhatsApp
+  SEND_LIST[SEND_IDX].sent=true;
+  SEND_IDX++;
+  renderSendPanel();
+  // Use location.href — never blocked by mobile browsers
+  window.location.href=link;
 }
 function skipOwner(){SEND_IDX++;if(SEND_IDX>=SEND_LIST.length)closeSendModal();else renderSendPanel();}
 
